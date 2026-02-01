@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2wPQ4DkGSiSjaQsEW9pN89ONMdY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.VoiceServer [clean].executor": "Run",
+    "Maven.VoiceServer [compile].executor": "Run",
+    "Maven.VoiceServer [deploy].executor": "Run",
+    "Maven.VoiceServer [install].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor": "Run",
+    "Maven.VoiceServer [package].executor": "Run",
+    "Maven.VoiceServer [site].executor": "Run",
+    "Maven.VoiceServer [test].executor": "Run",
+    "Maven.VoiceServer [validate].executor": "Run",
+    "Maven.VoiceServer [verify].executor": "Run",
+    "Maven.voiceServer [clean].executor": "Run",
+    "Maven.voiceServer [deploy].executor": "Run",
+    "Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+    "Maven.voiceServer [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer" />
+      <recent name="C:\Users\jakob_vowie\Sinnlose Projekte\VoiceServer\src\main\java\de\jakomi1\voiceServer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\logo" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\src\main\resources" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\src\main\resources\META-INF" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.jakomi1.voiceServer.scheduler" />
+      <recent name="de.jakomi1.voiceServer.commands" />
+      <recent name="de.jakomi1.voiceServer.listener" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="mcdev-temp-root" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="VoiceServer" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="mcdev-temp-root" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="" />
+      <created>1745940536846</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745940536846</updated>
+    </task>
+    <servers />
+  </component>
+</project>
