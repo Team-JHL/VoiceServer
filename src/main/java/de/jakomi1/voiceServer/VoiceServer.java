@@ -44,8 +44,7 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
             return;
         }
         service.registerPlugin(this);
-        loadConfig();
-        Bukkit.getOnlinePlayers().forEach(DataUtils::updatePermissions);
+
         registerAllCommands();
         registerAllListener();
     }
@@ -84,10 +83,12 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     @Override
     public void initialize(VoicechatApi api) {
         if (api instanceof VoicechatServerApi s) {
-            this.serverApi = s;
+            serverApi = s;
         } else {
             throw new IllegalStateException("Expected VoicechatServerApi");
         }
+        loadConfig();
+        Bukkit.getOnlinePlayers().forEach(DataUtils::updatePermissions);
     }
 
 }

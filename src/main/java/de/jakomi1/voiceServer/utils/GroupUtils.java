@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+import static de.jakomi1.voiceServer.VoiceServer.plugin;
 import static de.jakomi1.voiceServer.VoiceServer.serverApi;
+import static de.jakomi1.voiceServer.utils.DataUtils.removePersistentGroupByName;
 import static de.jakomi1.voiceServer.utils.MessageUtils.*;
 import static de.jakomi1.voiceServer.utils.TextUtils.*;
 
@@ -60,6 +62,28 @@ public class GroupUtils {
             }
         }
     }
+
+    /**
+     * Erstellt eine Gruppe ohne Spieler (für persistente Gruppen beim Reload)
+     */
+    public static void createGroupWithoutPlayers(Group group, String password) {
+        if (group == null) return;
+
+        // Nur erstellen, keine Spieler setzen
+        Group built = serverApi.groupBuilder()
+                .setName(group.getName())
+                .setType(group.getType())
+                .setPersistent(true)
+                .setPassword(group.hasPassword() ? password : null)
+                .build();
+
+        if (group.hasPassword()) {
+            groupPasswords.put(built.getId(), password);
+        }
+
+        System.out.println("Persistent group created without players: " + built.getName());
+    }
+
 
     public static void kickPlayers(CommandSender sender, String[] args) {
         if (args.length < 2) {
@@ -115,8 +139,12 @@ public class GroupUtils {
                 conn.setGroup(null);
             }
         }
+
         serverApi.removeGroup(group.getId());
         groupPasswords.remove(group.getId());
+        if(group.isPersistent()) {
+            removePersistentGroupByName(group.getName());
+        }
         sendSuccess(sender, "Group removed: " + group.getName());
     }
 
@@ -184,14 +212,19 @@ public class GroupUtils {
     public static void createGroup(CommandSender sender, String[] args) {
         int argLen = args.length;
         if (argLen < 4) {
-            sendError(sender, "Usage: /vcgroup create <player|@a|@s> <type> \"<group name>\" [persistent] [\"password\"]");
+            sendError(sender, "Usage: /vcgroup create <player|@a|@s|@null> <type> \"<group name>\" [persistent] [\"password\"]");
             return;
         }
 
-        List<Player> targets = parseTargets(sender, args[1]);
-        if (targets.isEmpty()) {
-            sendError(sender, "No valid players specified.");
-            return;
+        List<Player> targets;
+        if (args[1].equalsIgnoreCase("@null")) {
+            targets = new ArrayList<>(); // keine Spieler
+        } else {
+            targets = parseTargets(sender, args[1]);
+            if (targets.isEmpty()) {
+                sendError(sender, "No valid players specified.");
+                return;
+            }
         }
 
         String typeArg = args[2].toLowerCase(Locale.ROOT);
@@ -239,16 +272,20 @@ public class GroupUtils {
                     .setType(type)
                     .build();
             groupPasswords.put(group.getId(), password);
-            sendSuccess(sender, "Group created: " + groupName + " (locked, type=" + typeArg + ", persistent=" + persistent + ")");
         } else {
             group = serverApi.groupBuilder()
                     .setName(groupName)
                     .setPersistent(persistent)
                     .setType(type)
                     .build();
-            sendSuccess(sender, "Group created: " + groupName + " (type=" + typeArg + ", persistent=" + persistent + ")");
         }
 
+        // Serialisieren nur bei persistenten Gruppen
+        if (persistent) {
+            DataUtils.savePersistentGroup(serializePersistentGroup(group, password));
+        }
+        /*
+        // Spieler in die Gruppe setzen, nur wenn nicht @null
         for (Player p : targets) {
             VoicechatConnection conn = serverApi.getConnectionOf(p.getUniqueId());
             if (conn == null) {
@@ -275,7 +312,66 @@ public class GroupUtils {
                     sendSuccess(sender, "Old group removed (was empty): " + oldGroup.getName());
                 }
             }
+        }*/
+    }
+
+
+    public static String serializePersistentGroup(Group group, String password) {
+        if (group == null || !group.isPersistent()) return null;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(group.getName())
+                .append("+")
+                .append(typeToString(group.getType()));
+
+        // Passwort immer mitgeben, auch wenn null
+        sb.append("+[").append(password).append("]");
+
+        return sb.toString();
+    }
+
+
+    /**
+     * Erstellt eine persistente Gruppe ohne Spieler direkt aus einem String.
+     * Intern wird einfach der createGroup-Command mit @null als Spieler aufgerufen.
+     * Format: <name>+<type>+[password] (password kann null sein)
+     */
+    public static void createGroupWithoutPlayersFromString(String str) {
+        if (str == null || str.isBlank()) return;
+
+        try {
+            String[] parts = str.split("\\+");
+            if (parts.length < 2) return;
+
+            String name = parts[0];
+            String typeStr = parts[1];
+            Group.Type type = typeFromString(typeStr);
+
+            String password = null;
+            if (parts.length > 2) {
+                String pwPart = parts[2];
+                if (pwPart.startsWith("[") && pwPart.endsWith("]")) {
+                    password = pwPart.substring(1, pwPart.length() - 1);
+                    if ("null".equals(password)) password = null;
+                }
+            }
+
+            // Intern die createGroup-Methode nutzen, @null als Spieler, persistent = true
+            String[] commandArgs;
+            if (password != null) {
+                commandArgs = new String[]{"create", "@null", typeStr, "\"" + name + "\"", "persistent", "\"" + password + "\""};
+            } else {
+                commandArgs = new String[]{"create", "@null", typeStr, "\"" + name + "\"", "persistent"};
+            }
+
+            // CommandSender kann null sein, weil es intern ist
+            createGroup(Bukkit.getConsoleSender(), commandArgs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+
 
 }

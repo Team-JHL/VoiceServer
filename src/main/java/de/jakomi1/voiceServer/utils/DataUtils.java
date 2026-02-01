@@ -1,5 +1,6 @@
 package de.jakomi1.voiceServer.utils;
 
+import de.maxhenkel.voicechat.api.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,10 +42,17 @@ public class DataUtils {
     // debug flag (kann über config.yml unter 'debug: true' gesetzt werden)
     private static volatile boolean DEBUG = false;
 
+    // whether persistent groups should survive a restart (config key: "persistent-groups-should-survive-restart")
+    // optional boolean; default = false
+    private static volatile boolean PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = false;
+
+    private static final String PERSISTENT_GROUPS_PATH = "persistent-groups";
+
     // -------------------- Öffentliche API --------------------
 
     public static void loadConfig() {
         internalLoad();
+        loadPersistentGroups();
     }
 
     /**
@@ -69,6 +77,27 @@ public class DataUtils {
     }
 
     /**
+     * Speichert eine persistente Gruppe als String in der config.
+     * @param serializedGroup Ergebnis von GroupUtils.serializePersistentGroup(group, password)
+     */
+    public static void savePersistentGroup(String serializedGroup) {
+        if (config == null || serializedGroup == null) return;
+
+        // ensure list exists
+        if (!config.contains(PERSISTENT_GROUPS_PATH)) {
+            config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
+        }
+
+        List<String> existing = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
+        if (!existing.contains(serializedGroup)) {
+            existing.add(serializedGroup);
+            config.set(PERSISTENT_GROUPS_PATH, existing);
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+            plugin.getLogger().info("Saved persistent group: " + serializedGroup);
+        }
+    }
+
+    /**
      * Setzt das Debug-Flag zur Laufzeit (wird auch beim Laden aus config.yml gesetzt).
      */
     public static void setDebug(boolean debug) {
@@ -80,19 +109,65 @@ public class DataUtils {
         return DEBUG;
     }
 
+    /**
+     * Getter für das neue Feature-Flag: persistent-groups-should-survive-restart
+     * Default ist false. Wird beim Laden aus config.yml gesetzt.
+     */
+    public static boolean getPersistentGroupsShouldSurviveRestart() {
+        // Always read current runtime value (keeps a single access point)
+        return PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART;
+    }
+
     private static void debugLog(String msg) {
         if (DEBUG) {
             plugin.getLogger().info("[DEBUG] " + msg);
         }
     }
 
+
+    /**
+     * Lädt beim Init / Reload alle persistenten Gruppen aus der config
+     * und erstellt sie über GroupUtils.
+     * Wenn das Flag persistent-groups-should-survive-restart=false ist,
+     * wird die Liste geleert.
+     */
+    public static void loadPersistentGroups() {
+        if (config == null) return;
+
+        // ensure the persistent-groups list exists and flag exists
+        if (!config.contains(PERSISTENT_GROUPS_PATH)) {
+            config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+        }
+
+        List<String> storedGroups = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
+
+        if (!getPersistentGroupsShouldSurviveRestart()) {
+            // ensure config has an empty list
+            config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+            plugin.getLogger().info("Persistent groups cleared (survive-restart=false).");
+            return;
+        }
+
+        if (storedGroups.isEmpty()) return;
+
+        int created = 0;
+        for (String serialized : storedGroups) {
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        GroupUtils.createGroupWithoutPlayersFromString(serialized);
+                    }, 20*5);
+            created++;
+        }
+        plugin.getLogger().info("Will load " + created + " persistent groups from config.");
+    }
     /**
      * Resets ALL permission categories back to their default state:
      * - default = true
      * - allowed-players = []
      * - disallowed-players = []
      *
-     * Also saves config.yml and live-updates all online players.
+     * Also saves config.yml und live-updates all online players.
      */
     public static void resetAllPermissions() {
         if (config == null) return;
@@ -499,6 +574,10 @@ public class DataUtils {
                 YamlConfiguration minimal = new YamlConfiguration();
                 minimal.set("chat-prefix", DEFAULT_PREFIX);
                 minimal.set("debug", false);
+                // new optional flag: persistent-groups-should-survive-restart (default: false)
+                minimal.set("persistent-groups-should-survive-restart", false);
+                // ensure an empty list for persistent groups is present by default
+                minimal.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
                 try {
                     minimal.save(configFile);
                     plugin.getLogger().info("Created new minimal config.yml with default prefix.");
@@ -509,6 +588,31 @@ public class DataUtils {
             }
         }
         return created;
+    }
+
+    /**
+     * Ensure persistent-groups flag and list exist in the given config object.
+     * If they are missing, set sensible defaults and persist the file.
+     */
+    private static void ensurePersistentGroupsStructure(FileConfiguration cfg, File configFile) {
+        if (cfg == null) return;
+        boolean changed = false;
+
+        if (!cfg.contains("persistent-groups-should-survive-restart")) {
+            cfg.set("persistent-groups-should-survive-restart", false);
+            changed = true;
+            debugLog("Created missing 'persistent-groups-should-survive-restart' -> false");
+        }
+
+        if (!cfg.contains(PERSISTENT_GROUPS_PATH)) {
+            cfg.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
+            changed = true;
+            debugLog("Created missing '" + PERSISTENT_GROUPS_PATH + "' (empty list)");
+        }
+
+        if (changed) {
+            saveConfigFile(configFile);
+        }
     }
 
     private static void validatePrefixAndFixIfNeeded(FileConfiguration cfg, File configFile) {
@@ -530,8 +634,15 @@ public class DataUtils {
 
             config = YamlConfiguration.loadConfiguration(configFile);
 
+            // ensure persistent groups flag/list exist before reading
+            ensurePersistentGroupsStructure(config, configFile);
+
             boolean cfgDebug = config.getBoolean("debug", false);
             setDebug(cfgDebug);
+
+            // read new optional flag from config (default false)
+            PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = config.getBoolean("persistent-groups-should-survive-restart", false);
+            debugLog("persistent-groups-should-survive-restart=" + PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
 
             validatePrefixAndFixIfNeeded(config, configFile);
 
@@ -545,12 +656,39 @@ public class DataUtils {
             // Force apply permissions for all online players after load
             applyPermissionsToAllOnline();
 
+            // ⚡ Hier die persistenten Gruppen laden
+
         } catch (Exception e) {
             loaded = false;
             plugin.getLogger().severe("Error while loading config.yml: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    /**
+     * Entfernt alle persistente Gruppen mit dem gegebenen Namen aus der Config.
+     * Das Passwort wird dabei ignoriert.
+     * @param groupName Der Name der Gruppe, die entfernt werden soll
+     */
+    public static void removePersistentGroupByName(String groupName) {
+        if (config == null || groupName == null || groupName.isBlank()) return;
+
+        // Prüfen, ob die Liste existiert
+        if (!config.contains(PERSISTENT_GROUPS_PATH)) return;
+
+        List<String> storedGroups = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
+        boolean removed = storedGroups.removeIf(serialized -> {
+            if (serialized == null || serialized.isBlank()) return false;
+            String[] parts = serialized.split("\\+");
+            return parts.length >= 1 && groupName.equals(parts[0]);
+        });
+
+        if (removed) {
+            config.set(PERSISTENT_GROUPS_PATH, storedGroups);
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+        }
+    }
+
+
 
     public static void reloadPermissions() {
         if (config == null) {
@@ -575,6 +713,11 @@ public class DataUtils {
             config.set(path + ".allowed-players", fresh.getStringList(path + ".allowed-players"));
             config.set(path + ".disallowed-players", fresh.getStringList(path + ".disallowed-players"));
         }
+
+        // also refresh the persistent-groups flag/list from disk in case someone edited config manually
+        ensurePersistentGroupsStructure(fresh, configFile);
+        PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = fresh.getBoolean("persistent-groups-should-survive-restart", PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
+        debugLog("Reloaded persistent-groups-should-survive-restart=" + PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
 
         saveConfigFile(configFile);
 

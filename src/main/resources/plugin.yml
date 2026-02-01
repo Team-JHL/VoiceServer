@@ -28,7 +28,5 @@ commands:
     permission: voiceserver.vcserver
   vcpermission:
     description: Manage voicechat permissions
-    usage: /vcpermission <give/remove> <name> <permission>
+    usage: /vcpermission <give/remove> <playername> <permission>
     permission: voiceserver.vcpermission
-  testcommand:
-    usage: /test a

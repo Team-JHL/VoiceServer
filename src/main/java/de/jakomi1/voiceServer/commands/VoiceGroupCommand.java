@@ -59,7 +59,7 @@ public class VoiceGroupCommand implements CommandExecutor, TabCompleter {
                     .filter(sc -> sc.startsWith(sub)).forEach(suggestions::add);
             case 2 -> {
                 if (List.of("create", "join", "kick").contains(sub)) {
-                    suggestions.addAll(List.of("@a", "@s", "@r", "@p"));
+                    suggestions.addAll(List.of("@a", "@s", "@r", "@p","@null"));
                     Bukkit.getOnlinePlayers().forEach(p -> suggestions.add(p.getName()));
                     suggestions.removeIf(n -> !n.toLowerCase().startsWith(merged.get(1).toLowerCase()));
                 } else if (sub.equals("remove") || sub.equals("info")) {
