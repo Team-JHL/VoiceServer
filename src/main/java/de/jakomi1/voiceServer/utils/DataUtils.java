@@ -1,5 +1,6 @@
 package de.jakomi1.voiceServer.utils;
 
+import de.jakomi1.voiceServer.Scheduler;
 import de.maxhenkel.voicechat.api.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,38 +29,28 @@ public class DataUtils {
         try {
             m = Player.class.getMethod("updateCommands");
         } catch (NoSuchMethodException ignored) {
-            // 1.8 → Methode existiert nicht
         }
         UPDATE_COMMANDS_METHOD = m;
     }
 
-    // permission category names used in config under "permissions"
     private static final String[] PERMISSION_CATEGORIES = new String[]{"listen", "speak", "groups"};
-
-    // runtime permission attachments (keine mehrfachen attachments pro Spieler!)
     private static final Map<UUID, PermissionAttachment> permissionAttachments = new ConcurrentHashMap<>();
-
-    // debug flag (kann über config.yml unter 'debug: true' gesetzt werden)
     private static volatile boolean DEBUG = false;
-
-    // whether persistent groups should survive a restart (config key: "persistent-groups-should-survive-restart")
-    // optional boolean; default = false
     private static volatile boolean PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = false;
-
     private static final String PERSISTENT_GROUPS_PATH = "persistent-groups";
+    private static final String DEFAULT_GROUP_PATH = "default-group";
 
-    // -------------------- Öffentliche API --------------------
+    private static volatile String DEFAULT_GROUP_NAME = null;
+    private static volatile boolean DEFAULT_GROUP_PERSISTENT = false;
 
     public static void loadConfig() {
         internalLoad();
         loadPersistentGroups();
     }
 
-    /**
-     * Lädt die Konfiguration komplett neu, exakt wie der erste Load
-     */
     public static void reloadConfig() {
         internalLoad();
+        loadPersistentGroups();
     }
 
     public static boolean isLoaded() {
@@ -76,14 +67,9 @@ public class DataUtils {
         }
     }
 
-    /**
-     * Speichert eine persistente Gruppe als String in der config.
-     * @param serializedGroup Ergebnis von GroupUtils.serializePersistentGroup(group, password)
-     */
     public static void savePersistentGroup(String serializedGroup) {
         if (config == null || serializedGroup == null) return;
 
-        // ensure list exists
         if (!config.contains(PERSISTENT_GROUPS_PATH)) {
             config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
         }
@@ -97,11 +83,14 @@ public class DataUtils {
         }
     }
 
-    /**
-     * Setzt das Debug-Flag zur Laufzeit (wird auch beim Laden aus config.yml gesetzt).
-     */
     public static void setDebug(boolean debug) {
         DEBUG = debug;
+
+        if (config != null) {
+            config.set("debug", debug);
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+        }
+
         plugin.getLogger().info("VoiceServer debug " + (DEBUG ? "ENABLED" : "DISABLED"));
     }
 
@@ -109,13 +98,69 @@ public class DataUtils {
         return DEBUG;
     }
 
-    /**
-     * Getter für das neue Feature-Flag: persistent-groups-should-survive-restart
-     * Default ist false. Wird beim Laden aus config.yml gesetzt.
-     */
     public static boolean getPersistentGroupsShouldSurviveRestart() {
-        // Always read current runtime value (keeps a single access point)
         return PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART;
+    }
+
+    public static void setPersistentGroupsShouldSurviveRestart(boolean survive) {
+        PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = survive;
+
+        if (config != null) {
+            config.set("persistent-groups-should-survive-restart", survive);
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+        }
+
+        plugin.getLogger().info("persistent-groups-should-survive-restart " + (survive ? "ENABLED" : "DISABLED"));
+
+        if (survive) {
+            loadPersistentGroups();
+        }
+    }
+
+    public static String getDefaultGroupName() {
+        return DEFAULT_GROUP_NAME;
+    }
+
+    public static boolean isDefaultGroupPersistent() {
+        return DEFAULT_GROUP_PERSISTENT;
+    }
+
+    public static void setDefaultGroup(String groupName, boolean persistent) {
+        String normalized = groupName == null ? null : groupName.trim();
+        if (normalized != null && normalized.isBlank()) normalized = null;
+
+        DEFAULT_GROUP_NAME = normalized;
+        DEFAULT_GROUP_PERSISTENT = persistent;
+
+        if (config == null) return;
+
+        if (normalized != null) {
+            config.set(DEFAULT_GROUP_PATH + ".name", normalized);
+            config.set(DEFAULT_GROUP_PATH + ".persistent", persistent);
+        } else {
+            config.set(DEFAULT_GROUP_PATH + ".name", null);
+            config.set(DEFAULT_GROUP_PATH + ".persistent", null);
+        }
+
+        saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+    }
+
+    public static void clearDefaultGroupIfMatches(String groupName) {
+        if (groupName == null || groupName.isBlank()) return;
+
+        if (DEFAULT_GROUP_NAME != null && DEFAULT_GROUP_NAME.equalsIgnoreCase(groupName)) {
+            DEFAULT_GROUP_NAME = null;
+            DEFAULT_GROUP_PERSISTENT = false;
+        }
+
+        if (config == null) return;
+
+        String storedName = config.getString(DEFAULT_GROUP_PATH + ".name");
+        if (storedName != null && storedName.equalsIgnoreCase(groupName)) {
+            config.set(DEFAULT_GROUP_PATH + ".name", null);
+            config.set(DEFAULT_GROUP_PATH + ".persistent", null);
+            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+        }
     }
 
     private static void debugLog(String msg) {
@@ -124,51 +169,26 @@ public class DataUtils {
         }
     }
 
-
-    /**
-     * Lädt beim Init / Reload alle persistenten Gruppen aus der config
-     * und erstellt sie über GroupUtils.
-     * Wenn das Flag persistent-groups-should-survive-restart=false ist,
-     * wird die Liste geleert.
-     */
     public static void loadPersistentGroups() {
         if (config == null) return;
 
-        // ensure the persistent-groups list exists and flag exists
-        if (!config.contains(PERSISTENT_GROUPS_PATH)) {
-            config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
-            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
-        }
-
-        List<String> storedGroups = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
-
-        if (!getPersistentGroupsShouldSurviveRestart()) {
-            // ensure config has an empty list
-            config.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
-            saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
-            plugin.getLogger().info("Persistent groups cleared (survive-restart=false).");
+        if (!PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART) {
+            plugin.getLogger().info("Persistent groups are configured not to survive restart; skipping automatic restore.");
             return;
         }
 
+        List<String> storedGroups = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
         if (storedGroups.isEmpty()) return;
 
         int created = 0;
         for (String serialized : storedGroups) {
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        GroupUtils.createGroupWithoutPlayersFromString(serialized);
-                    }, 20*5);
+            Scheduler.run(() -> GroupUtils.createGroupWithoutPlayersFromString(serialized));
             created++;
         }
+
         plugin.getLogger().info("Will load " + created + " persistent groups from config.");
     }
-    /**
-     * Resets ALL permission categories back to their default state:
-     * - default = true
-     * - allowed-players = []
-     * - disallowed-players = []
-     *
-     * Also saves config.yml und live-updates all online players.
-     */
+
     public static void resetAllPermissions() {
         if (config == null) return;
 
@@ -183,11 +203,7 @@ public class DataUtils {
         }
 
         saveConfigFile(configFile);
-
-        // Permissions neu einlesen
         reloadPermissions();
-
-        // Permissions live für alle Spieler aktualisieren (force)
         applyPermissionsToAllOnline();
 
         plugin.getLogger().info("ALL permissions reset to defaults.");
@@ -205,8 +221,6 @@ public class DataUtils {
 
         return prefix + " ";
     }
-
-    // -------------------- Permission-Config API --------------------
 
     public static boolean isPermissionDefault(String category) {
         if (config == null) return true;
@@ -249,7 +263,6 @@ public class DataUtils {
         }
     }
 
-    /** Entfernt und entfernt das Attachment eines Spielers (z.B. bei Quit / Plugin-Disable). */
     public static void removeAttachmentFor(Player player) {
         if (player == null) return;
         PermissionAttachment att = permissionAttachments.remove(player.getUniqueId());
@@ -263,7 +276,6 @@ public class DataUtils {
         }
     }
 
-    /** Entfernt alle Attachments (z.B. beim Plugin-Disable). */
     public static void clearAllAttachments() {
         List<UUID> keys = new ArrayList<>(permissionAttachments.keySet());
         for (UUID id : keys) {
@@ -298,39 +310,28 @@ public class DataUtils {
         saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
 
         reloadPermissions();
-
-        // Force update all online players
         applyPermissionsToAllOnline();
 
         plugin.getLogger().info("Permission default for '" + category + "' changed to " + def);
         return true;
     }
 
-    /**
-     * Erzeugt zwingend ein neues Attachment für den Spieler und setzt
-     * explizit *jedes* einzelne voicechat.<category> Permission (kein wildcard).
-     * -> Force-Verhalten: Sauberer Neustart des Attachments + explizite Setzung
-     */
     public static void updatePermissions(Player player) {
         if (player == null) return;
 
-        // Ensure execution on main thread
         if (!Bukkit.isPrimaryThread()) {
             plugin.getLogger().fine("updatePermissions called asynchronously for " + player.getName() + " — scheduling sync task.");
-            Bukkit.getScheduler().runTask(plugin, () -> updatePermissions(player));
+            Scheduler.run(() -> updatePermissions(player));
             return;
         }
 
         String playerName = player.getName();
         UUID uuid = player.getUniqueId();
 
-        // ensure config is up to date
         reloadPermissions();
 
-        // REMOVE existing attachment we created (force clean state)
         removeAttachmentFor(player);
 
-        // create a fresh attachment (guarantees no stale values)
         PermissionAttachment att;
         try {
             att = player.addAttachment(plugin);
@@ -342,9 +343,7 @@ public class DataUtils {
             return;
         }
 
-        // compute desired values and set them explicitly for each sub-permission (no wildcard)
         for (String category : PERMISSION_CATEGORIES) {
-            // ensure default exists
             String defaultPath = getPermissionPath(category) + ".default";
             if (config == null) continue;
             if (!config.contains(defaultPath) || config.get(defaultPath) == null) {
@@ -357,7 +356,6 @@ public class DataUtils {
             String permKey = "voicechat." + category;
 
             try {
-                // set each sub-permission explicitly (true or false)
                 att.setPermission(permKey, desired);
                 debugLog("Set permission " + permKey + "=" + desired + " for " + playerName);
             } catch (Exception e) {
@@ -366,18 +364,14 @@ public class DataUtils {
             }
         }
 
-        // Trigger commands update if available
         if (UPDATE_COMMANDS_METHOD != null) {
             try {
                 UPDATE_COMMANDS_METHOD.invoke(player);
             } catch (Throwable ignored) {
-                // ignore multi-version failures
             }
         }
     }
 
-
-    // Give permission to a player (used for /vcpermission give ...)
     public static boolean addPermissionPlayer(String category, String playerName) {
         if (config == null) return false;
         if (!isValidCategory(category) || playerName == null || playerName.isBlank()) return false;
@@ -410,7 +404,6 @@ public class DataUtils {
             saveConfigFile(configFile);
             Player p = Bukkit.getPlayerExact(playerName);
             if (p != null && p.isOnline()) {
-                // force update for that player
                 updatePermissions(p);
             }
         }
@@ -418,7 +411,6 @@ public class DataUtils {
         return changed;
     }
 
-    // Remove permission from a player (used for /vcpermission remove ...)
     public static boolean removePermissionPlayer(String category, String playerName) {
         if (config == null) return false;
         if (!isValidCategory(category) || playerName == null || playerName.isBlank()) return false;
@@ -497,8 +489,6 @@ public class DataUtils {
         return changed;
     }
 
-    // direct helpers
-
     public static boolean addAllowedPlayer(String category, String playerName) {
         if (config == null) return false;
         if (!isValidCategory(category) || playerName == null || playerName.isBlank()) return false;
@@ -549,8 +539,6 @@ public class DataUtils {
         return removed;
     }
 
-    // -------------------- Private Hilfsmethoden --------------------
-
     private static void ensureDataFolder(File folder) throws IOException {
         if (!folder.exists() && !folder.mkdirs()) {
             throw new IOException("Could not create plugin data folder: " + folder.getAbsolutePath());
@@ -574,10 +562,10 @@ public class DataUtils {
                 YamlConfiguration minimal = new YamlConfiguration();
                 minimal.set("chat-prefix", DEFAULT_PREFIX);
                 minimal.set("debug", false);
-                // new optional flag: persistent-groups-should-survive-restart (default: false)
                 minimal.set("persistent-groups-should-survive-restart", false);
-                // ensure an empty list for persistent groups is present by default
                 minimal.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
+                minimal.set(DEFAULT_GROUP_PATH + ".name", null);
+                minimal.set(DEFAULT_GROUP_PATH + ".persistent", null);
                 try {
                     minimal.save(configFile);
                     plugin.getLogger().info("Created new minimal config.yml with default prefix.");
@@ -590,10 +578,6 @@ public class DataUtils {
         return created;
     }
 
-    /**
-     * Ensure persistent-groups flag and list exist in the given config object.
-     * If they are missing, set sensible defaults and persist the file.
-     */
     private static void ensurePersistentGroupsStructure(FileConfiguration cfg, File configFile) {
         if (cfg == null) return;
         boolean changed = false;
@@ -608,6 +592,16 @@ public class DataUtils {
             cfg.set(PERSISTENT_GROUPS_PATH, new ArrayList<String>());
             changed = true;
             debugLog("Created missing '" + PERSISTENT_GROUPS_PATH + "' (empty list)");
+        }
+
+        if (!cfg.contains(DEFAULT_GROUP_PATH + ".name")) {
+            cfg.set(DEFAULT_GROUP_PATH + ".name", null);
+            changed = true;
+        }
+
+        if (!cfg.contains(DEFAULT_GROUP_PATH + ".persistent")) {
+            cfg.set(DEFAULT_GROUP_PATH + ".persistent", null);
+            changed = true;
         }
 
         if (changed) {
@@ -634,18 +628,25 @@ public class DataUtils {
 
             config = YamlConfiguration.loadConfiguration(configFile);
 
-            // ensure persistent groups flag/list exist before reading
             ensurePersistentGroupsStructure(config, configFile);
 
             boolean cfgDebug = config.getBoolean("debug", false);
-            setDebug(cfgDebug);
+            DEBUG = cfgDebug;
 
-            // read new optional flag from config (default false)
             PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = config.getBoolean("persistent-groups-should-survive-restart", false);
             debugLog("persistent-groups-should-survive-restart=" + PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
 
-            validatePrefixAndFixIfNeeded(config, configFile);
+            String storedDefaultName = config.getString(DEFAULT_GROUP_PATH + ".name", null);
+            boolean storedDefaultPersistent = config.getBoolean(DEFAULT_GROUP_PATH + ".persistent", false);
+            if (storedDefaultName != null && !storedDefaultName.isBlank()) {
+                DEFAULT_GROUP_NAME = storedDefaultName.trim();
+                DEFAULT_GROUP_PERSISTENT = storedDefaultPersistent;
+            } else {
+                DEFAULT_GROUP_NAME = null;
+                DEFAULT_GROUP_PERSISTENT = false;
+            }
 
+            validatePrefixAndFixIfNeeded(config, configFile);
             ensurePermissionsStructure(config, configFile);
 
             loaded = true;
@@ -653,10 +654,7 @@ public class DataUtils {
             String msg = "VoiceServer config.yml " + (created ? "created and " : "") + "loaded successfully.";
             plugin.getLogger().info(msg);
 
-            // Force apply permissions for all online players after load
             applyPermissionsToAllOnline();
-
-            // ⚡ Hier die persistenten Gruppen laden
 
         } catch (Exception e) {
             loaded = false;
@@ -664,31 +662,25 @@ public class DataUtils {
             e.printStackTrace();
         }
     }
-    /**
-     * Entfernt alle persistente Gruppen mit dem gegebenen Namen aus der Config.
-     * Das Passwort wird dabei ignoriert.
-     * @param groupName Der Name der Gruppe, die entfernt werden soll
-     */
+
     public static void removePersistentGroupByName(String groupName) {
         if (config == null || groupName == null || groupName.isBlank()) return;
 
-        // Prüfen, ob die Liste existiert
         if (!config.contains(PERSISTENT_GROUPS_PATH)) return;
 
         List<String> storedGroups = new ArrayList<>(config.getStringList(PERSISTENT_GROUPS_PATH));
         boolean removed = storedGroups.removeIf(serialized -> {
             if (serialized == null || serialized.isBlank()) return false;
             String[] parts = serialized.split("\\+");
-            return parts.length >= 1 && groupName.equals(parts[0]);
+            return parts.length >= 1 && groupName.equalsIgnoreCase(parts[0]);
         });
 
         if (removed) {
             config.set(PERSISTENT_GROUPS_PATH, storedGroups);
             saveConfigFile(new File(plugin.getDataFolder(), CONFIG_NAME));
+            clearDefaultGroupIfMatches(groupName);
         }
     }
-
-
 
     public static void reloadPermissions() {
         if (config == null) {
@@ -714,10 +706,19 @@ public class DataUtils {
             config.set(path + ".disallowed-players", fresh.getStringList(path + ".disallowed-players"));
         }
 
-        // also refresh the persistent-groups flag/list from disk in case someone edited config manually
         ensurePersistentGroupsStructure(fresh, configFile);
         PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART = fresh.getBoolean("persistent-groups-should-survive-restart", PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
         debugLog("Reloaded persistent-groups-should-survive-restart=" + PERSISTENT_GROUPS_SHOULD_SURVIVE_RESTART);
+
+        String storedDefaultName = fresh.getString(DEFAULT_GROUP_PATH + ".name", null);
+        boolean storedDefaultPersistent = fresh.getBoolean(DEFAULT_GROUP_PATH + ".persistent", false);
+        if (storedDefaultName != null && !storedDefaultName.isBlank()) {
+            DEFAULT_GROUP_NAME = storedDefaultName.trim();
+            DEFAULT_GROUP_PERSISTENT = storedDefaultPersistent;
+        } else {
+            DEFAULT_GROUP_NAME = null;
+            DEFAULT_GROUP_PERSISTENT = false;
+        }
 
         saveConfigFile(configFile);
 
@@ -787,9 +788,6 @@ public class DataUtils {
         return "permissions." + category.toLowerCase();
     }
 
-    /**
-     * Wendet updatePermissions(Player) für alle online Spieler an (force).
-     */
     private static void applyPermissionsToAllOnline() {
         debugLog("Applying permissions to all online players (" + Bukkit.getOnlinePlayers().size() + ")");
         for (Player p : Bukkit.getOnlinePlayers()) {

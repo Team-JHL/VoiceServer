@@ -6,19 +6,16 @@ import de.jakomi1.voiceServer.listener.JoinGroupListener;
 import de.jakomi1.voiceServer.listener.JoinListener;
 import de.jakomi1.voiceServer.listener.LeaveGroupListener;
 import de.jakomi1.voiceServer.utils.DataUtils;
+import de.jakomi1.voiceServer.utils.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.NetworkChannel;
-import java.util.*;
+
+import java.util.List;
+import java.util.Objects;
 
 import static de.jakomi1.voiceServer.utils.DataUtils.*;
 
@@ -32,7 +29,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         registration.registerEvent(JoinGroupEvent.class, JoinGroupListener::onGroupJoinEvent);
         registration.registerEvent(LeaveGroupEvent.class, LeaveGroupListener::onGroupLeaveEvent);
     }
-
 
     @Override
     public void onEnable() {
@@ -51,23 +47,25 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
 
     private void registerAllListener() {
         List<Listener> listeners = List.of(
-                new JoinListener());
+                new JoinListener()
+        );
         listeners.forEach(this::registerListener);
-
     }
+
     private void registerListener(Listener listener) {
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
+
     private void registerAllCommands() {
-        registerCommand("vcserver",new VoiceServerCommand(),new VoiceServerCommand());
-        registerCommand("vcgroup",new VoiceGroupCommand(),new VoiceGroupCommand());
-        registerCommand("vcpermission",new VoicePermissionCommand(),new VoicePermissionCommand());
-        registerCommand("testcommand",new TestCommand(),new EmptyTabCompleter());
+        registerCommand("vcserver", new VoiceServerCommand(), new VoiceServerCommand());
+        registerCommand("vcgroup", new VoiceGroupCommand(), new VoiceGroupCommand());
+        registerCommand("vcpermission", new VoicePermissionCommand(), new VoicePermissionCommand());
+        registerCommand("testcommand", new TestCommand(), new EmptyTabCompleter());
     }
 
     private void registerCommand(String command, CommandExecutor executor, TabCompleter completer) {
         PluginCommand cmd = getServer().getPluginCommand(command);
-        if(cmd != null) {
+        if (cmd != null) {
             cmd.setExecutor(executor);
             cmd.setTabCompleter(Objects.requireNonNullElseGet(completer, EmptyTabCompleter::new));
         } else {
@@ -75,7 +73,7 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         }
     }
 
-   @Override
+    @Override
     public String getPluginId() {
         return "voiceserver";
     }
@@ -87,8 +85,9 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         } else {
             throw new IllegalStateException("Expected VoicechatServerApi");
         }
+
         loadConfig();
         Bukkit.getOnlinePlayers().forEach(DataUtils::updatePermissions);
+        Scheduler.runLater(() -> Bukkit.getOnlinePlayers().forEach(GroupUtils::joinDefaultGroup), 40L);
     }
-
 }

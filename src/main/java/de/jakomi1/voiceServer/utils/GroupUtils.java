@@ -7,10 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
-import static de.jakomi1.voiceServer.VoiceServer.plugin;
 import static de.jakomi1.voiceServer.VoiceServer.serverApi;
+import static de.jakomi1.voiceServer.utils.DataUtils.clearDefaultGroupIfMatches;
 import static de.jakomi1.voiceServer.utils.DataUtils.removePersistentGroupByName;
 import static de.jakomi1.voiceServer.utils.MessageUtils.*;
 import static de.jakomi1.voiceServer.utils.TextUtils.*;
@@ -19,19 +25,19 @@ public class GroupUtils {
     public static final Map<UUID, String> groupPasswords = new HashMap<>();
     public static final Map<UUID, Group> playerGroupMap = new HashMap<>();
 
-    public static final List<String> PERSISTENCE_TYPES = List.of("persistent", "not-persistent");
-
     public static void joinPlayers(CommandSender sender, String[] args) {
         if (args.length < 3) {
             sendError(sender, "Usage: /vcgroup join <player|@a|@s> \"<group name>\"");
             return;
         }
+
         List<Player> targets = parseTargets(sender, args[1]);
         String groupName = getQuotedArg(args, 2);
         if (groupName == null) {
             sendError(sender, "Group name must be in quotes!");
             return;
         }
+
         Group newGroup = findGroup(groupName);
         if (newGroup == null) {
             sendError(sender, "Group not found.");
@@ -44,57 +50,91 @@ public class GroupUtils {
                 sendError(sender, "Player not connected to voice chat: " + p.getName());
                 continue;
             }
-            Group oldGroup = conn.getGroup();
-            conn.setGroup(newGroup);
+            moveConnectionToGroup(conn, newGroup);
+        }
+    }
 
-            if (oldGroup != null && !oldGroup.getId().equals(newGroup.getId())) {
-                long remaining = Bukkit.getOnlinePlayers().stream()
-                        .map(pm -> serverApi.getConnectionOf(pm.getUniqueId()))
-                        .filter(Objects::nonNull)
-                        .map(VoicechatConnection::getGroup)
-                        .filter(oldGroup::equals)
-                        .count();
+    public static void joinDefaultGroup(Player player) {
+        if (player == null || serverApi == null) return;
 
-                if (remaining == 0 && !oldGroup.isPersistent()) {
-                    serverApi.removeGroup(oldGroup.getId());
-                    groupPasswords.remove(oldGroup.getId());
-                }
+        String defaultGroupName = DataUtils.getDefaultGroupName();
+        if (defaultGroupName == null || defaultGroupName.isBlank()) return;
+
+        Group defaultGroup = findGroup(defaultGroupName);
+        if (defaultGroup == null) return;
+
+        VoicechatConnection conn = serverApi.getConnectionOf(player.getUniqueId());
+        if (conn == null) return;
+
+        moveConnectionToGroup(conn, defaultGroup);
+    }
+
+    public static void applyDefaultGroupToOnlinePlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            joinDefaultGroup(player);
+        }
+    }
+
+    public static void setDefaultGroup(CommandSender sender, String[] args) {
+        if (args.length < 2) {
+            sendError(sender, "Usage: /vcgroup default \"<group name>\"");
+            return;
+        }
+
+        String groupName = getQuotedArg(args, 1);
+        if (groupName == null) {
+            sendError(sender, "Group name must be in quotes!");
+            return;
+        }
+
+        Group group = findGroup(groupName);
+        if (group == null) {
+            sendError(sender, "Group not found.");
+            return;
+        }
+
+        if (args.length > 2) {
+            sendError(sender, "Usage: /vcgroup default \"<group name>\"");
+            return;
+        }
+
+        DataUtils.setDefaultGroup(group.getName(), group.isPersistent());
+        sendSuccess(sender, "Default group saved: " + group.getName());
+    }
+
+    private static void moveConnectionToGroup(VoicechatConnection conn, Group newGroup) {
+        Group oldGroup = conn.getGroup();
+        if (oldGroup != null && oldGroup.getId().equals(newGroup.getId())) return;
+
+        conn.setGroup(newGroup);
+
+        if (oldGroup != null && !oldGroup.getId().equals(newGroup.getId())) {
+            long remaining = Bukkit.getOnlinePlayers().stream()
+                    .map(pm -> serverApi.getConnectionOf(pm.getUniqueId()))
+                    .filter(Objects::nonNull)
+                    .map(VoicechatConnection::getGroup)
+                    .filter(oldGroup::equals)
+                    .count();
+
+            if (remaining == 0 && !oldGroup.isPersistent()) {
+                serverApi.removeGroup(oldGroup.getId());
+                groupPasswords.remove(oldGroup.getId());
             }
         }
     }
-
-    /**
-     * Erstellt eine Gruppe ohne Spieler (für persistente Gruppen beim Reload)
-     */
-    public static void createGroupWithoutPlayers(Group group, String password) {
-        if (group == null) return;
-
-        // Nur erstellen, keine Spieler setzen
-        Group built = serverApi.groupBuilder()
-                .setName(group.getName())
-                .setType(group.getType())
-                .setPersistent(true)
-                .setPassword(group.hasPassword() ? password : null)
-                .build();
-
-        if (group.hasPassword()) {
-            groupPasswords.put(built.getId(), password);
-        }
-
-        System.out.println("Persistent group created without players: " + built.getName());
-    }
-
 
     public static void kickPlayers(CommandSender sender, String[] args) {
         if (args.length < 2) {
             sendError(sender, "Usage: /vcgroup kick <player|@a|@s|@r|@p>");
             return;
         }
+
         List<Player> targets = parseTargets(sender, args[1]);
         if (targets.isEmpty()) {
             sendError(sender, "No valid players specified.");
             return;
         }
+
         for (Player p : targets) {
             var conn = serverApi.getConnectionOf(p.getUniqueId());
             if (conn != null && conn.getGroup() != null) {
@@ -102,12 +142,14 @@ public class GroupUtils {
                 conn.setGroup(null);
 
                 sendSuccess(sender, "Kicked player: " + p.getName() + " from group: " + group.getName());
+
                 long remaining = Bukkit.getOnlinePlayers().stream()
                         .map(pm -> serverApi.getConnectionOf(pm.getUniqueId()))
                         .filter(Objects::nonNull)
                         .map(VoicechatConnection::getGroup)
                         .filter(group::equals)
                         .count();
+
                 if (remaining == 0 && !group.isPersistent()) {
                     serverApi.removeGroup(group.getId());
                     groupPasswords.remove(group.getId());
@@ -122,16 +164,19 @@ public class GroupUtils {
             sendError(sender, "Usage: /vcgroup remove \"<group name>\"");
             return;
         }
+
         String groupName = getQuotedArg(args, 1);
         if (groupName == null) {
             sendError(sender, "Group name must be in quotes!");
             return;
         }
+
         Group group = findGroup(groupName);
         if (group == null) {
             sendError(sender, "Group not found.");
             return;
         }
+
         for (Player p : Bukkit.getOnlinePlayers()) {
             var conn = serverApi.getConnectionOf(p.getUniqueId());
             if (conn != null && conn.getGroup() != null
@@ -142,7 +187,8 @@ public class GroupUtils {
 
         serverApi.removeGroup(group.getId());
         groupPasswords.remove(group.getId());
-        if(group.isPersistent()) {
+        clearDefaultGroupIfMatches(group.getName());
+        if (group.isPersistent()) {
             removePersistentGroupByName(group.getName());
         }
         sendSuccess(sender, "Group removed: " + group.getName());
@@ -161,10 +207,10 @@ public class GroupUtils {
             sendSuccess(sender, "No voice chat groups available.");
             return;
         }
+
         sendSuccess(sender, "Voice chat groups:");
         for (Group g : groups) {
             boolean isLocked = groupPasswords.containsKey(g.getId());
-            String displayName = quote(g.getName());
             String msg = ">> " + ChatColor.AQUA + g.getName() +
                     (isLocked ? ChatColor.RED + " [locked]" : "") +
                     ChatColor.GRAY + " (" + typeToString(g.getType()) + ")";
@@ -212,13 +258,13 @@ public class GroupUtils {
     public static void createGroup(CommandSender sender, String[] args) {
         int argLen = args.length;
         if (argLen < 4) {
-            sendError(sender, "Usage: /vcgroup create <player|@a|@s|@null> <type> \"<group name>\" [persistent] [\"password\"]");
+            sendError(sender, "Usage: /vcgroup create <player|@a|@s|@null> <type> \"<group name>\" [not-persistent] [\"password\"]");
             return;
         }
 
         List<Player> targets;
         if (args[1].equalsIgnoreCase("@null")) {
-            targets = new ArrayList<>(); // keine Spieler
+            targets = new ArrayList<>();
         } else {
             targets = parseTargets(sender, args[1]);
             if (targets.isEmpty()) {
@@ -229,6 +275,10 @@ public class GroupUtils {
 
         String typeArg = args[2].toLowerCase(Locale.ROOT);
         Group.Type type = typeFromString(typeArg);
+        if (type == null) {
+            sendError(sender, "Unknown group type: " + args[2]);
+            return;
+        }
 
         int nameIdx = 3;
         String groupName = getQuotedArg(args, nameIdx);
@@ -236,25 +286,32 @@ public class GroupUtils {
             sendError(sender, "Group name must be in quotes!");
             return;
         }
-        int nextArgIdx = nameIdx + countQuotedArgs(args, nameIdx);
 
-        boolean persistent = false;
+        int nextArgIdx = nameIdx + countQuotedArgs(args, nameIdx);
+        boolean persistent = true;
         String password = null;
 
         if (argLen > nextArgIdx) {
-            String arg4 = args[nextArgIdx];
-            if (arg4.equalsIgnoreCase("persistent")) {
-                persistent = true;
-                if (argLen > nextArgIdx + 1) {
-                    password = getQuotedArg(args, nextArgIdx + 1);
-                }
-            } else if (arg4.equalsIgnoreCase("not-persistent")) {
+            String mode = args[nextArgIdx].toLowerCase(Locale.ROOT);
+
+            if (mode.equals("not-persistent")) {
                 persistent = false;
-                if (argLen > nextArgIdx + 1) {
-                    password = getQuotedArg(args, nextArgIdx + 1);
-                }
-            } else {
-                password = getQuotedArg(args, nextArgIdx);
+                nextArgIdx++;
+            } else if (mode.equals("persistent")) {
+                persistent = true;
+                nextArgIdx++;
+            }
+        }
+
+        if (argLen > nextArgIdx) {
+            password = getQuotedArg(args, nextArgIdx);
+            if (password == null) {
+                sendError(sender, "Password must be in quotes!");
+                return;
+            }
+            if (argLen > nextArgIdx + countQuotedArgs(args, nextArgIdx)) {
+                sendError(sender, "Too many arguments.");
+                return;
             }
         }
 
@@ -280,62 +337,29 @@ public class GroupUtils {
                     .build();
         }
 
-        // Serialisieren nur bei persistenten Gruppen
         if (persistent) {
             DataUtils.savePersistentGroup(serializePersistentGroup(group, password));
         }
-        /*
-        // Spieler in die Gruppe setzen, nur wenn nicht @null
+
         for (Player p : targets) {
-            VoicechatConnection conn = serverApi.getConnectionOf(p.getUniqueId());
-            if (conn == null) {
-                sendError(sender, "Player not connected to voice chat: " + p.getName());
-                continue;
+            var conn = serverApi.getConnectionOf(p.getUniqueId());
+            if (conn != null) {
+                moveConnectionToGroup(conn, group);
             }
-            conn.setConnected(false);
+        }
 
-            Group oldGroup = conn.getGroup();
-            conn.setGroup(group);
-            sendSuccess(sender, "Moved player: " + p.getName() + " to group: " + group.getName());
-
-            if (oldGroup != null && !oldGroup.getId().equals(group.getId())) {
-                long remaining = Bukkit.getOnlinePlayers().stream()
-                        .map(pm -> serverApi.getConnectionOf(pm.getUniqueId()))
-                        .filter(Objects::nonNull)
-                        .map(VoicechatConnection::getGroup)
-                        .filter(oldGroup::equals)
-                        .count();
-
-                if (remaining == 0 && !oldGroup.isPersistent()) {
-                    serverApi.removeGroup(oldGroup.getId());
-                    groupPasswords.remove(oldGroup.getId());
-                    sendSuccess(sender, "Old group removed (was empty): " + oldGroup.getName());
-                }
-            }
-        }*/
+        sendSuccess(sender, "Group created: " + group.getName() + (persistent ? " [persistent]" : " [not-persistent]"));
     }
-
 
     public static String serializePersistentGroup(Group group, String password) {
         if (group == null || !group.isPersistent()) return null;
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(group.getName())
-                .append("+")
-                .append(typeToString(group.getType()));
-
-        // Passwort immer mitgeben, auch wenn null
-        sb.append("+[").append(password).append("]");
-
-        return sb.toString();
+        return group.getName() +
+                "+" +
+                typeToString(group.getType()) +
+                "+[" + password + "]";
     }
 
-
-    /**
-     * Erstellt eine persistente Gruppe ohne Spieler direkt aus einem String.
-     * Intern wird einfach der createGroup-Command mit @null als Spieler aufgerufen.
-     * Format: <name>+<type>+[password] (password kann null sein)
-     */
     public static void createGroupWithoutPlayersFromString(String str) {
         if (str == null || str.isBlank()) return;
 
@@ -346,6 +370,7 @@ public class GroupUtils {
             String name = parts[0];
             String typeStr = parts[1];
             Group.Type type = typeFromString(typeStr);
+            if (type == null) return;
 
             String password = null;
             if (parts.length > 2) {
@@ -356,7 +381,6 @@ public class GroupUtils {
                 }
             }
 
-            // Intern die createGroup-Methode nutzen, @null als Spieler, persistent = true
             String[] commandArgs;
             if (password != null) {
                 commandArgs = new String[]{"create", "@null", typeStr, "\"" + name + "\"", "persistent", "\"" + password + "\""};
@@ -364,14 +388,10 @@ public class GroupUtils {
                 commandArgs = new String[]{"create", "@null", typeStr, "\"" + name + "\"", "persistent"};
             }
 
-            // CommandSender kann null sein, weil es intern ist
             createGroup(Bukkit.getConsoleSender(), commandArgs);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
 }
