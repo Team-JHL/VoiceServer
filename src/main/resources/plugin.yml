@@ -1,6 +1,6 @@
 name: VoiceServer
 main: de.jakomi1.voiceServer.VoiceServer
-version: 1.3.1
+version: 1.4.0
 api-version: "1.8.8"
 folia-supported: true
 
@@ -19,14 +19,17 @@ permissions:
 
 commands:
   vcgroup:
-    description: Manage voice chat groups (list, create, add, kick, remove, info).
-    usage: /vcgroup <list|create|add|kick|info|remove> [...]
+    aliases: [voicegroup]
+    description: Manage voice chat groups.
+    usage: /vcgroup <list|create|add|kick|info|default|remove> [...]
     permission: voiceserver.vcgroup
   vcserver:
+    aliases: [voicegroup]
     description: Main plugin command (reload)
     usage: /vcserver <reload>
     permission: voiceserver.vcserver
   vcpermission:
+    aliases: [voicepermission]
     description: Manage voicechat permissions
     usage: /vcpermission <give/remove> <playername> <permission>
     permission: voiceserver.vcpermission

@@ -6,7 +6,7 @@
 
     <groupId>de.jakomi1</groupId>
     <artifactId>VoiceServer</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.0</version>
     <packaging>jar</packaging>
 
     <name>VoiceServer</name>
@@ -57,10 +57,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <!-- Erzeugung des dependency-reduced POM ausschalten (verursacht manchmal Probleme) -->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-
-                            <!-- Exclude provided dependencies (Bukkit / API) aus dem fat-jar -->
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.bukkit:bukkit</exclude>
@@ -69,16 +66,7 @@
                             </artifactSet>
 
                             <transformers>
-                                <!-- Merge service files falls vorhanden -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <!-- Optional: Wenn du eine Main-Klasse hast, kannst du sie hier angeben.
-                                     Für Bukkit-Plugins ist das normalerweise nicht nötig, also
-                                     lasse diese Transformer-Zeile weg oder passe mainClass an. -->
-                                <!--
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>de.jakomi1.VoiceServer.Main</mainClass>
-                                </transformer>
-                                -->
                             </transformers>
                         </configuration>
                     </execution>
@@ -95,7 +83,6 @@
     </build>
 
     <repositories>
-        <!-- Spigot / Bukkit Repository -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -104,7 +91,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-        <!-- Simple Voice Chat API -->
         <repository>
             <id>maxhenkel</id>
             <url>https://maven.maxhenkel.de/repository/releases/</url>
@@ -118,8 +104,6 @@
             <version>1.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Simple Voice Chat API -->
         <dependency>
             <groupId>de.maxhenkel.voicechat</groupId>
             <artifactId>voicechat-api</artifactId>
