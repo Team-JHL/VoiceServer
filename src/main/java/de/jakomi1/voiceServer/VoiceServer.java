@@ -6,6 +6,7 @@ import de.jakomi1.voiceServer.utils.DataUtils;
 import de.jakomi1.voiceServer.utils.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
@@ -32,6 +33,7 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     }
     public void onEnable() {
         plugin = this;
+        new Metrics(this, 32078);
         BukkitVoicechatService service = getServer().getServicesManager().load(BukkitVoicechatService.class);
         if (service == null) {
             getLogger().warning("[VoiceServer] Voice chat service not found. Plugin disabled.");

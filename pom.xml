@@ -7,7 +7,7 @@
 
     <groupId>de.jakomi1</groupId>
     <artifactId>VoiceServer</artifactId>
-    <version>1.4.0-experimental</version>
+    <version>experimental</version>
     <packaging>jar</packaging>
 
     <name>VoiceServer</name>
@@ -17,65 +17,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-
-        <repository>
-            <id>maxhenkel</id>
-            <url>https://maven.maxhenkel.de/repository/releases/</url>
-        </repository>
-
-        <!-- WICHTIG: Concentus kommt von hier -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-    </repositories>
-
-    <dependencies>
-
-        <!-- Bukkit -->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Simple Voice Chat API -->
-        <dependency>
-            <groupId>de.maxhenkel.voicechat</groupId>
-            <artifactId>voicechat-api</artifactId>
-            <version>2.5.27</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.jaredmdobson</groupId>
-            <artifactId>concentus</artifactId>
-            <version>1.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
-    </dependencies>
-
     <build>
 
         <defaultGoal>clean package</defaultGoal>
 
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
 
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -83,15 +37,13 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
-            <!-- Jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.4.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -102,11 +54,10 @@
                 </configuration>
             </plugin>
 
-            <!-- Shade -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.0</version>
 
                 <executions>
                     <execution>
@@ -116,18 +67,17 @@
                         </goals>
 
                         <configuration>
+
                             <createDependencyReducedPom>false</createDependencyReducedPom>
 
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>org.bukkit:bukkit</exclude>
-                                    <exclude>de.maxhenkel.voicechat:voicechat-api</exclude>
-                                </excludes>
-                            </artifactSet>
+                            <relocations>
 
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                            </transformers>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>de.jakomi1.voiceserver.libs.bstats</shadedPattern>
+                                </relocation>
+
+                            </relocations>
 
                         </configuration>
                     </execution>
@@ -135,7 +85,47 @@
             </plugin>
 
         </plugins>
-
     </build>
+
+    <repositories>
+
+        <repository>
+            <id>spigot</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>maxhenkel</id>
+            <url>https://maven.maxhenkel.de/repository/public</url>
+        </repository>
+
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.maxhenkel.voicechat</groupId>
+            <artifactId>voicechat-api</artifactId>
+            <version>2.5.27</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
