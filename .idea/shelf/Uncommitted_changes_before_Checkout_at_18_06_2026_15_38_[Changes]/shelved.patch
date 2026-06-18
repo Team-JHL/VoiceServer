@@ -1,0 +1,147 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"68a185f7-190f-4f5c-9ab2-5b4356da9911\" name=\"Changes\" comment=\"Fixes\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Jakomi1&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Jakomi1/VoiceServer.git&quot;,\r\n    &quot;accountId&quot;: &quot;1c293d2b-a189-4ee7-81bb-45b42ea7fe4e&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 4\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2wPQ4DkGSiSjaQsEW9pN89ONMdY\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Maven.VoiceServer [clean].executor\": \"Run\",\r\n    \"Maven.VoiceServer [compile].executor\": \"Run\",\r\n    \"Maven.VoiceServer [deploy].executor\": \"Run\",\r\n    \"Maven.VoiceServer [install].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor\": \"Run\",\r\n    \"Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor\": \"Run\",\r\n    \"Maven.VoiceServer [package].executor\": \"Run\",\r\n    \"Maven.VoiceServer [site].executor\": \"Run\",\r\n    \"Maven.VoiceServer [test].executor\": \"Run\",\r\n    \"Maven.VoiceServer [validate].executor\": \"Run\",\r\n    \"Maven.VoiceServer [verify].executor\": \"Run\",\r\n    \"Maven.voiceServer [clean].executor\": \"Run\",\r\n    \"Maven.voiceServer [deploy].executor\": \"Run\",\r\n    \"Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor\": \"Run\",\r\n    \"Maven.voiceServer [test].executor\": \"Run\",\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"last_opened_file_path\": \"C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases\",\r\n    \"project.structure.last.edited\": \"Modules\",\r\n    \"project.structure.proportion\": \"0.0\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"settings.editor.selected.configurable\": \"org.jetbrains.plugins.github.ui.GithubSettingsConfigurable\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\\releases\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Sinnlose Projekte\\VoiceServer\\src\\main\\java\\de\\jakomi1\\voiceServer\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\\logo\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\\releases\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\\src\\main\\resources\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\\src\\main\\resources\\META-INF\" />\r\n      <recent name=\"C:\\Users\\jakob_vowie\\Desktop\\Coding Projekte\\VoiceServer\" />\r\n    </key>\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"de.jakomi1.voiceServer.scheduler\" />\r\n      <recent name=\"de.jakomi1.voiceServer.commands\" />\r\n      <recent name=\"de.jakomi1.voiceServer.listener\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\r\n      <module name=\"mcdev-temp-root\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\r\n      <module name=\"VoiceServer\" />\r\n      <option name=\"filePath\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"PythonConfigurationType\" factoryName=\"Python\">\r\n      <module name=\"mcdev-temp-root\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"68a185f7-190f-4f5c-9ab2-5b4356da9911\" name=\"Changes\" comment=\"\" />\r\n      <created>1745940536846</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1745940536846</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Initial Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1769957885166</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1769957885166</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Initial Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1769958225652</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1769958225652</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Fixes\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1769966604483</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1769966604483</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Initial Commit\" />\r\n    <MESSAGE value=\"Fixes\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Fixes\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 7103ac58019ff7520d5dcc4918adb76a1a28c6a6)
++++ b/.idea/workspace.xml	(date 1781789863523)
+@@ -4,7 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="Fixes">
++    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="removed unused code">
++      <change afterPath="$PROJECT_DIR$/TestFiles" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/logo/icon.png" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/logo/logo-400mb.png" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -20,6 +23,11 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="ver/1.4.0" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="GitHubPullRequestSearchHistory">{
+@@ -38,43 +46,46 @@
+   &quot;associatedIndex&quot;: 4
+ }</component>
+   <component name="ProjectId" id="2wPQ4DkGSiSjaQsEW9pN89ONMdY" />
++  <component name="ProjectLevelVcsManager">
++    <ConfirmationsSetting value="1" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Maven.VoiceServer [clean].executor": "Run",
+-    "Maven.VoiceServer [compile].executor": "Run",
+-    "Maven.VoiceServer [deploy].executor": "Run",
+-    "Maven.VoiceServer [install].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+-    "Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor": "Run",
+-    "Maven.VoiceServer [package].executor": "Run",
+-    "Maven.VoiceServer [site].executor": "Run",
+-    "Maven.VoiceServer [test].executor": "Run",
+-    "Maven.VoiceServer [validate].executor": "Run",
+-    "Maven.VoiceServer [verify].executor": "Run",
+-    "Maven.voiceServer [clean].executor": "Run",
+-    "Maven.voiceServer [deploy].executor": "Run",
+-    "Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+-    "Maven.voiceServer [test].executor": "Run",
+-    "ModuleVcsDetector.initialDetectionPerformed": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "master",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases",
+-    "project.structure.last.edited": "Modules",
+-    "project.structure.proportion": "0.0",
+-    "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Maven.VoiceServer [clean].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [compile].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [deploy].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [install].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [package].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [site].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [test].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [validate].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.VoiceServer [verify].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.voiceServer [clean].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.voiceServer [deploy].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.voiceServer [test].executor&quot;: &quot;Run&quot;,
++    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
+@@ -164,12 +175,30 @@
+       <option name="project" value="LOCAL" />
+       <updated>1769966604483</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="added bStats metrics">
++      <option name="closed" value="true" />
++      <created>1781788973325</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1781788973325</updated>
++    </task>
++    <task id="LOCAL-00005" summary="removed unused code">
++      <option name="closed" value="true" />
++      <created>1781789595007</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1781789595007</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Initial Commit" />
+     <MESSAGE value="Fixes" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Fixes" />
++    <MESSAGE value="added bStats metrics" />
++    <MESSAGE value="removed unused code" />
++    <option name="LAST_COMMIT_MESSAGE" value="removed unused code" />
+   </component>
+ </project>
+\ No newline at end of file

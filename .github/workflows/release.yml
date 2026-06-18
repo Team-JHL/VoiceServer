@@ -54,13 +54,12 @@ jobs:
         run: |
           echo "CHANGELOG=VoiceServer Release ${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
 
-      # 🔵 Upload zu Modrinth
       - name: Upload to Modrinth
-        uses: modrinth/github-upload@v1
+        uses: modrinth/minotaur-action@v1
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
           project-id: HAYLhcHS
-          file-path: ${{ steps.jar.outputs.JAR }}
+          file-path: target/*.jar
           version: ${{ steps.vars.outputs.VERSION }}
           changelog: ${{ steps.changelog.outputs.CHANGELOG }}
           release-type: release

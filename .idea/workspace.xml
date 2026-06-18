@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="added release logic">
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed release logic">
       <change afterPath="$PROJECT_DIR$/logo/icon.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/logo/logo-400mb.png" afterDir="false" />
     </list>
@@ -29,12 +29,12 @@
     &quot;assignee&quot;: &quot;Jakomi1&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Jakomi1/VoiceServer.git&quot;,
-    &quot;accountId&quot;: &quot;1c293d2b-a189-4ee7-81bb-45b42ea7fe4e&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Team-JHL/VoiceServer.git",
+    "accountId": "342ed136-4f86-4603-866e-1380bdefa5e0"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -184,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781793968315</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fixed release logic">
+      <option name="closed" value="true" />
+      <created>1781794712866</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1781794712866</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -192,6 +200,7 @@
     <MESSAGE value="Fixes" />
     <MESSAGE value="removed unused code" />
     <MESSAGE value="added release logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="added release logic" />
+    <MESSAGE value="fixed release logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed release logic" />
   </component>
 </project>
