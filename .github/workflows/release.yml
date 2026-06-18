@@ -52,7 +52,7 @@ jobs:
           cat changelog.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # 🔥 RELEASE (KEIN build-X mehr!)
+
       - name: Publish Modrinth + CurseForge
         uses: Kir-Antipov/mc-publish@v3
         with:
@@ -67,7 +67,7 @@ jobs:
           name: VoiceServer ${{ steps.vars.outputs.VERSION }}
           version: ${{ steps.vars.outputs.VERSION }}
 
-          changelog: changelog.txt
+          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
 
           loaders: |
             paper
