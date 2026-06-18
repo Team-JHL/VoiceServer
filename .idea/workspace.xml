@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed some bugs" />
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="added metrics support">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +20,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ver/experimental" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -43,39 +50,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.VoiceServer [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [site].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [validate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.VoiceServer [verify].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.voiceServer [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.voiceServer [deploy].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.voiceServer [test].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.VoiceServer [clean].executor": "Run",
+    "Maven.VoiceServer [compile].executor": "Run",
+    "Maven.VoiceServer [deploy].executor": "Run",
+    "Maven.VoiceServer [install].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor": "Run",
+    "Maven.VoiceServer [package].executor": "Run",
+    "Maven.VoiceServer [site].executor": "Run",
+    "Maven.VoiceServer [test].executor": "Run",
+    "Maven.VoiceServer [validate].executor": "Run",
+    "Maven.VoiceServer [verify].executor": "Run",
+    "Maven.voiceServer [clean].executor": "Run",
+    "Maven.voiceServer [deploy].executor": "Run",
+    "Maven.voiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+    "Maven.voiceServer [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
@@ -269,7 +276,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781814251319</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added metrics support">
+      <option name="closed" value="true" />
+      <created>1781814979678</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1781814979678</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -279,6 +294,7 @@
     <MESSAGE value="added release logic" />
     <MESSAGE value="fixed release logic" />
     <MESSAGE value="fixed some bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some bugs" />
+    <MESSAGE value="added metrics support" />
+    <option name="LAST_COMMIT_MESSAGE" value="added metrics support" />
   </component>
 </project>
