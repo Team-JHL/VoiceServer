@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed release logic">
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed some bugs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -215,7 +215,55 @@
       <option name="project" value="LOCAL" />
       <updated>1781797465099</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixed release logic">
+      <option name="closed" value="true" />
+      <created>1781797968249</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1781797968249</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fixed release logic">
+      <option name="closed" value="true" />
+      <created>1781798051763</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1781798051763</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fixed release logic">
+      <option name="closed" value="true" />
+      <created>1781813781548</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1781813781548</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fixed some bugs">
+      <option name="closed" value="true" />
+      <created>1781813833143</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1781813833143</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fixed some bugs">
+      <option name="closed" value="true" />
+      <created>1781813847947</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1781813847947</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixed some bugs">
+      <option name="closed" value="true" />
+      <created>1781813985535</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1781813985535</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -224,6 +272,7 @@
     <MESSAGE value="removed unused code" />
     <MESSAGE value="added release logic" />
     <MESSAGE value="fixed release logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed release logic" />
+    <MESSAGE value="fixed some bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed some bugs" />
   </component>
 </project>
