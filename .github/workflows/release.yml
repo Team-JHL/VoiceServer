@@ -43,16 +43,16 @@ jobs:
         run: |
           awk '
             /^## / { if (seen++) exit }
-            { print }
+            { gsub(/\\##/, "##"); print }
           ' CHANGELOG.md > changelog.txt
 
           cat changelog.txt
 
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          cat changelog.txt >> $GITHUB_OUTPUT
+          printf "%s\n" "$(cat changelog.txt)" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # 🔥 RELEASE (KEIN build-X mehr!)
+      # 🔥 RELEASE
       - name: Publish Modrinth + CurseForge
         uses: Kir-Antipov/mc-publish@v3
         with:
@@ -67,7 +67,7 @@ jobs:
           name: VoiceServer ${{ steps.vars.outputs.VERSION }}
           version: ${{ steps.vars.outputs.VERSION }}
 
-          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
+          changelog-file: changelog.txt
 
           loaders: |
             paper
