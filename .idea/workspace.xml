@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="removed unused code">
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="added release logic">
       <change afterPath="$PROJECT_DIR$/logo/icon.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/logo/logo-400mb.png" afterDir="false" />
     </list>
@@ -79,9 +79,6 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
 }</component>
-  <component name="QodanaGithubNotificationPromoProjectDismissalState">
-    <option name="dismissed" value="true" />
-  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
@@ -179,13 +176,22 @@
       <option name="project" value="LOCAL" />
       <updated>1781790069205</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added release logic">
+      <option name="closed" value="true" />
+      <created>1781793968315</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1781793968315</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Fixes" />
     <MESSAGE value="removed unused code" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unused code" />
+    <MESSAGE value="added release logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="added release logic" />
   </component>
 </project>
