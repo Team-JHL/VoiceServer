@@ -77,7 +77,22 @@ jobs:
             folia
 
           game-versions: |
-            1.8.8-26.2
+            1.8.8
+            1.9.X
+            1.10.X
+            1.11.X
+            1.12.X
+            1.13.X
+            1.14.X
+            1.15.X
+            1.16.X
+            1.17.X
+            1.18.X
+            1.19.X
+            1.20.X
+            1.21.X
+            26.1.X
+            26.2
 
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
