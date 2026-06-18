@@ -1,6 +1,6 @@
 name: VoiceServer
 main: de.jakomi1.voiceServer.VoiceServer
-version: 1.4.0
+version: 1.4.1
 api-version: "1.8.8"
 folia-supported: true
 

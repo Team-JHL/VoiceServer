@@ -9,6 +9,7 @@ import de.jakomi1.voiceServer.utils.DataUtils;
 import de.jakomi1.voiceServer.utils.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
@@ -22,7 +23,6 @@ import static de.jakomi1.voiceServer.utils.DataUtils.*;
 public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandExecutor, TabCompleter {
     public static VoicechatServerApi serverApi;
     public static JavaPlugin plugin;
-
     @Override
     public void registerEvents(EventRegistration registration) {
         registration.registerEvent(CreateGroupEvent.class, CreateGroupListener::onGroupCreatedEvent);
@@ -33,6 +33,8 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     @Override
     public void onEnable() {
         plugin = this;
+        new Metrics(this, 32071);
+
         BukkitVoicechatService service = getServer().getServicesManager().load(BukkitVoicechatService.class);
         if (service == null) {
             getLogger().warning("[VoiceServer] Voice chat service not found. Plugin disabled.");
@@ -60,7 +62,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         registerCommand("vcserver", new VoiceServerCommand(), new VoiceServerCommand());
         registerCommand("vcgroup", new VoiceGroupCommand(), new VoiceGroupCommand());
         registerCommand("vcpermission", new VoicePermissionCommand(), new VoicePermissionCommand());
-        registerCommand("testcommand", new TestCommand(), new EmptyTabCompleter());
     }
 
     private void registerCommand(String command, CommandExecutor executor, TabCompleter completer) {
