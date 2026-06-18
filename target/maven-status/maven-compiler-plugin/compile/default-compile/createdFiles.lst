@@ -1,0 +1,15 @@
+de\jakomi1\voiceServer\commands\VoiceGroupCommand.class
+de\jakomi1\voiceServer\listener\CreateGroupListener.class
+de\jakomi1\voiceServer\Scheduler$Task.class
+de\jakomi1\voiceServer\utils\DataUtils.class
+de\jakomi1\voiceServer\commands\EmptyTabCompleter.class
+de\jakomi1\voiceServer\commands\VoiceServerCommand.class
+de\jakomi1\voiceServer\utils\MessageUtils.class
+de\jakomi1\voiceServer\Scheduler.class
+de\jakomi1\voiceServer\commands\VoicePermissionCommand.class
+de\jakomi1\voiceServer\utils\TextUtils.class
+de\jakomi1\voiceServer\utils\GroupUtils.class
+de\jakomi1\voiceServer\listener\JoinGroupListener.class
+de\jakomi1\voiceServer\listener\LeaveGroupListener.class
+de\jakomi1\voiceServer\listener\JoinListener.class
+de\jakomi1\voiceServer\VoiceServer.class

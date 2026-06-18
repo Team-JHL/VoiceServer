@@ -24,6 +24,11 @@
     <remote-repository>
       <option name="id" value="maxhenkel" />
       <option name="name" value="maxhenkel" />
+      <option name="url" value="https://maven.maxhenkel.de/repository/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maxhenkel" />
+      <option name="name" value="maxhenkel" />
       <option name="url" value="https://maven.maxhenkel.de/#/releases/de/maxhenkel/voicechat/voicechat-api/2.5.27" />
     </remote-repository>
     <remote-repository>
