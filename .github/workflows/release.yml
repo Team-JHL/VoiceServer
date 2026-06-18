@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ⚡ Maven Cache (Speed Boost)
+      # ⚡ Maven Cache
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
@@ -26,7 +26,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      # ☕ Java Setup (dein Projekt = Java 21)
+      # ☕ Java Setup (Java 21)
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -34,48 +34,46 @@ jobs:
           java-version: 21
           cache: maven
 
-      # 📦 Maven Build
+      # 📦 Build
       - name: Build with Maven
         run: mvn clean package
 
-      # 📦 JAR finden (robust wegen Shade Plugin)
+      # 📦 JAR finden
       - name: Find JAR file
         id: jar
         run: echo "JAR=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
-      # 🏷️ Version aus Tag holen (v1.4.1 → 1.4.1)
+      # 🏷️ Version aus Tag
       - name: Extract version
         id: vars
         run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
-      # 📝 Einfacher Changelog (später upgradebar auf CHANGELOG.md)
+      # 📝 Changelog
       - name: Set changelog
         id: changelog
         run: |
           echo "CHANGELOG=VoiceServer Release ${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
 
-      - name: Upload to Modrinth
-        uses: modrinth/minotaur-action@v1
+      # 🔵 MODRINTH + CURSEFORGE (FIXED)
+      - name: Publish to Modrinth & CurseForge
+        uses: Kir-Antipov/mc-publish@v3
         with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          project-id: HAYLhcHS
-          file-path: target/*.jar
+          modrinth-id: HAYLhcHS
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          curseforge-id: 1310398
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          files: ${{ steps.jar.outputs.JAR }}
+
+          name: VoiceServer ${{ steps.vars.outputs.VERSION }}
           version: ${{ steps.vars.outputs.VERSION }}
           changelog: ${{ steps.changelog.outputs.CHANGELOG }}
-          release-type: release
 
-      # 🟠 Upload zu CurseForge
-      - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@v3
-        with:
-          token: ${{ secrets.CURSEFORGE_TOKEN }}
-          project-id: 1310398
-          game-version: 1.8.8
-          release-type: release
-          file-path: ${{ steps.jar.outputs.JAR }}
-          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
+          loaders: paper
+          game-versions: 1.8.8
 
-      # 📦 GitHub Release erstellen
+      # 📦 GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
