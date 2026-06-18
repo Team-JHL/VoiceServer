@@ -63,10 +63,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         registerDynamicPermission("vcrecord", PermissionDefault.FALSE);
         registerDynamicPermission("vcsoundboard", PermissionDefault.FALSE);
         registerDynamicPermission("vcstream", PermissionDefault.FALSE);
-        //registerDynamicPermission("vctranscript", PermissionDefault.FALSE);
-
-
-        //registerDynamicCommand("vctranscript", new VoiceTranscriptCommand(), new VoiceTranscriptCommand(), List.of("voicetranscript"), "voiceserver.vctranscript");
         registerDynamicCommand("vcstream", new VoiceStreamCommand(), new VoiceStreamCommand(), List.of("voicestream"), "voiceserver.vcstream");
         registerDynamicCommand("vcserver", new VoiceServerCommand(), new VoiceServerCommand(), List.of("voiceserver"), "voiceserver.vcserver");
         registerDynamicCommand("vcgroup", new VoiceGroupCommand(), new VoiceGroupCommand(), List.of("voicegroup"), "voiceserver.vcgroup");

@@ -4,27 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="- Hotfix: Added missing classes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceRecordCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceSoundboardCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceStreamCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceTranscriptCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/MicrophonePacketListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/CommandUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/OpusFileUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/RecorderUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/SoundboardUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/StreamUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/TranscriptUtils.java" afterDir="false" />
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="- added experimental features">
       <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/Scheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/Scheduler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/DataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/DataUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/MessageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/MessageUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/MicrophonePacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/MicrophonePacketListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +46,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2wPQ4DkGSiSjaQsEW9pN89ONMdY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -94,7 +80,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "experimental/1.4.0",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases",
     "project.structure.last.edited": "Modules",
@@ -218,7 +204,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779117011077</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="- added experimental features">
+      <option name="closed" value="true" />
+      <created>1781784609765</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1781784609765</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -228,6 +222,7 @@
     <MESSAGE value="added aliases for command (/vcpermission &lt;- voicepermission, /vcpermission &lt;- voicepermission and /vcserver &lt;- voiceserver" />
     <MESSAGE value="- Added command aliases:&#10;  - /vcpermission → /voicepermission&#10;  - /vcserver → /voiceserver&#10;  - /vcgroup → /voicegroup&#10;  &#10;- Added /vcgroup default &lt;groupname&gt; [persistent]&#10;  Sets the default group that players are automatically placed into when joining.&#10;- Added folia-supported Scheduler" />
     <MESSAGE value="- Hotfix: Added missing classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Hotfix: Added missing classes" />
+    <MESSAGE value="- added experimental features" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added experimental features" />
   </component>
 </project>

@@ -24,10 +24,6 @@ public class MicrophonePacketListener {
         }
 
 
-        try {
-            TranscriptUtils.onMicrophonePacket(event);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }
