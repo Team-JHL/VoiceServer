@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed release logic">
-      <change afterPath="$PROJECT_DIR$/logo/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logo/logo-400mb.png" afterDir="false" />
-    </list>
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed release logic" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
