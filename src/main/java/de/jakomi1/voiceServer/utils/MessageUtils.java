@@ -10,17 +10,26 @@ import static de.jakomi1.voiceServer.utils.TextUtils.getChatPrefix;
 
 public class MessageUtils {
 
-
     public static void showVoiceGroupCommandUsage(CommandSender sender) {
         sendError(sender, "Usage: /vcgroup <" + String.join("|", SUBCOMMANDS) + "> [...]");
     }
 
     public static void showVoiceServerCommandUsage(CommandSender sender) {
-        sendError(sender, "Usage: /vcserver <" + String.join("|", VoiceServerCommand.SUBCOMMANDS) + ">");
+        sendError(sender, "Usage: /vcserver <" + String.join("|", VoiceServerCommand.SUBCOMMANDS) + "> [...]");
     }
+
     public static void showVoicePermissionCommandUsage(CommandSender sender) {
-        sendError(sender, "Usage: /vcpermission <" + String.join("|", VoicePermissionCommand.SUBCOMMANDS) +"> [...]");
+        sendError(sender, "Usage: /vcpermission <" + String.join("|", VoicePermissionCommand.SUBCOMMANDS) + "> [...]");
     }
+
+    public static void showVoiceRecordCommandUsage(CommandSender sender) {
+        sendError(sender, "Usage: /vcrecord <player> [seconds]");
+    }
+
+    public static void showVoiceSoundboardCommandUsage(CommandSender sender) {
+        sendError(sender, "Usage: /vcsoundboard <recordings|sounds> <datei>");
+    }
+
     public static void sendSuccess(CommandSender sender, String message) {
         sender.sendMessage(getChatPrefix() + ChatColor.GRAY + message);
     }

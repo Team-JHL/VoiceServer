@@ -3,12 +3,10 @@ package de.jakomi1.voiceServer.listener;
 import de.jakomi1.voiceServer.Scheduler;
 import de.jakomi1.voiceServer.utils.DataUtils;
 import de.jakomi1.voiceServer.utils.GroupUtils;
-import org.bukkit.Bukkit;
+import de.jakomi1.voiceServer.utils.RecorderUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import static de.jakomi1.voiceServer.VoiceServer.plugin;
 
 public class JoinListener implements Listener {
 

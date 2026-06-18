@@ -798,4 +798,80 @@ public class DataUtils {
             }
         }
     }
+    public static File getWhisperFolder() {
+        File folder = new File(plugin.getDataFolder(), "whisper");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder;
+    }
+
+    public static File getWhisperExecutable() {
+        boolean windows = System.getProperty("os.name").toLowerCase().contains("win");
+        File exe = new File(getWhisperFolder(), windows ? "whisper-cli.exe" : "whisper-cli");
+
+        if (exe.exists() && !windows) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                exe.setExecutable(true);
+            } catch (Exception ignored) {
+            }
+        }
+
+        return exe;
+    }
+
+    public static File getWhisperModelsFolder() {
+        File folder = new File(getWhisperFolder(), "models");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder;
+    }
+
+    public static List<String> listWhisperModels() {
+        File root = getWhisperModelsFolder();
+        List<String> out = new ArrayList<>();
+        collectWhisperModels(root, root, out);
+        out.sort(String.CASE_INSENSITIVE_ORDER);
+        return out;
+    }
+
+    private static void collectWhisperModels(File root, File dir, List<String> out) {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File f : files) {
+            if (f.isDirectory()) {
+                collectWhisperModels(root, f, out);
+            } else if (f.isFile() && f.getName().toLowerCase(Locale.ROOT).endsWith(".bin")) {
+                String rel = root.toURI().relativize(f.toURI()).getPath();
+                out.add(rel.replace('\\', '/'));
+            }
+        }
+    }
+
+    public static File getWhisperModel(String modelName) {
+        File root = getWhisperModelsFolder();
+
+        if (modelName == null || modelName.isBlank()) {
+            return new File(root, "ggml-large-v3.bin");
+        }
+
+        String normalized = modelName.trim().replace('\\', '/');
+        File exact = new File(root, normalized);
+        if (exact.exists()) return exact;
+
+        if (!normalized.endsWith(".bin")) {
+            File withExt = new File(root, normalized + ".bin");
+            if (withExt.exists()) return withExt;
+        }
+
+        return exact;
+    }
+
+    public static boolean hasWhisperBackend(String modelName) {
+        return getWhisperExecutable().exists() && getWhisperModel(modelName).exists();
+    }
+
 }

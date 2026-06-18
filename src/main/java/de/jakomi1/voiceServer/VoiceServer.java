@@ -1,10 +1,7 @@
 package de.jakomi1.voiceServer;
 
 import de.jakomi1.voiceServer.commands.*;
-import de.jakomi1.voiceServer.listener.CreateGroupListener;
-import de.jakomi1.voiceServer.listener.JoinGroupListener;
-import de.jakomi1.voiceServer.listener.JoinListener;
-import de.jakomi1.voiceServer.listener.LeaveGroupListener;
+import de.jakomi1.voiceServer.listener.*;
 import de.jakomi1.voiceServer.utils.DataUtils;
 import de.jakomi1.voiceServer.utils.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
@@ -12,11 +9,14 @@ import de.maxhenkel.voicechat.api.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Objects;
 
+import static de.jakomi1.voiceServer.utils.CommandUtils.registerDynamicCommand;
+import static de.jakomi1.voiceServer.utils.CommandUtils.registerDynamicPermission;
 import static de.jakomi1.voiceServer.utils.DataUtils.*;
 
 public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandExecutor, TabCompleter {
@@ -28,9 +28,8 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         registration.registerEvent(CreateGroupEvent.class, CreateGroupListener::onGroupCreatedEvent);
         registration.registerEvent(JoinGroupEvent.class, JoinGroupListener::onGroupJoinEvent);
         registration.registerEvent(LeaveGroupEvent.class, LeaveGroupListener::onGroupLeaveEvent);
+        registration.registerEvent(MicrophonePacketEvent.class, MicrophonePacketListener::onPacketEvent);
     }
-
-    @Override
     public void onEnable() {
         plugin = this;
         BukkitVoicechatService service = getServer().getServicesManager().load(BukkitVoicechatService.class);
@@ -57,21 +56,25 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     }
 
     private void registerAllCommands() {
-        registerCommand("vcserver", new VoiceServerCommand(), new VoiceServerCommand());
-        registerCommand("vcgroup", new VoiceGroupCommand(), new VoiceGroupCommand());
-        registerCommand("vcpermission", new VoicePermissionCommand(), new VoicePermissionCommand());
-        registerCommand("testcommand", new TestCommand(), new EmptyTabCompleter());
+
+        registerDynamicPermission("vcgroup", PermissionDefault.FALSE);
+        registerDynamicPermission("vcserver", PermissionDefault.FALSE);
+        registerDynamicPermission("vcpermission", PermissionDefault.FALSE);
+        registerDynamicPermission("vcrecord", PermissionDefault.FALSE);
+        registerDynamicPermission("vcsoundboard", PermissionDefault.FALSE);
+        registerDynamicPermission("vcstream", PermissionDefault.FALSE);
+        //registerDynamicPermission("vctranscript", PermissionDefault.FALSE);
+
+
+        //registerDynamicCommand("vctranscript", new VoiceTranscriptCommand(), new VoiceTranscriptCommand(), List.of("voicetranscript"), "voiceserver.vctranscript");
+        registerDynamicCommand("vcstream", new VoiceStreamCommand(), new VoiceStreamCommand(), List.of("voicestream"), "voiceserver.vcstream");
+        registerDynamicCommand("vcserver", new VoiceServerCommand(), new VoiceServerCommand(), List.of("voiceserver"), "voiceserver.vcserver");
+        registerDynamicCommand("vcgroup", new VoiceGroupCommand(), new VoiceGroupCommand(), List.of("voicegroup"), "voiceserver.vcgroup");
+        registerDynamicCommand("vcsoundboard", new VoiceSoundboardCommand(), new VoiceSoundboardCommand(), List.of("voicesoundboard"), "voiceserver.vcsoundboard");
+        registerDynamicCommand("vcpermission", new VoicePermissionCommand(), new VoicePermissionCommand(), List.of("voicepermission"), "voiceserver.vcpermission");
+        registerDynamicCommand("vcrecord", new VoiceRecordCommand(), new VoiceRecordCommand(), List.of("voicerecord"), "voiceserver.vcrecord");
     }
 
-    private void registerCommand(String command, CommandExecutor executor, TabCompleter completer) {
-        PluginCommand cmd = getServer().getPluginCommand(command);
-        if (cmd != null) {
-            cmd.setExecutor(executor);
-            cmd.setTabCompleter(Objects.requireNonNullElseGet(completer, EmptyTabCompleter::new));
-        } else {
-            getLogger().warning("Cannot register the \"/" + command + "\" command");
-        }
-    }
 
     @Override
     public String getPluginId() {
