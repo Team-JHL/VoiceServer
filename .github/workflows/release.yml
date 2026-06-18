@@ -54,9 +54,14 @@ jobs:
         with:
           modrinth-id: HAYLhcHS
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          dependencies: |
+            9eGKb6K1 required
 
           curseforge-id: 1310398
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          curseforge-dependencies: |
+            simple-voice-chat:required
 
           files: ${{ steps.jar.outputs.JAR }}
 
