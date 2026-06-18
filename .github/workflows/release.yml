@@ -2,8 +2,8 @@ name: VoiceServer Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master   # oder main
 
 permissions:
   contents: write
@@ -30,13 +30,24 @@ jobs:
         id: jar
         run: echo "JAR=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
-      - name: Extract version
+      # 🔥 Version jetzt aus Run-ID (kein Tag mehr)
+      - name: Generate version
         id: vars
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=build-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-      - name: Changelog
+      - name: Extract latest changelog section
         id: changelog
-        run: echo "CHANGELOG=VoiceServer ${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        run: |
+          awk '
+            /^## / { if (seen++) exit }
+            { print }
+          ' CHANGELOG.md > changelog.txt
+
+          {
+            echo "CHANGELOG<<EOF"
+            cat changelog.txt
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Publish Modrinth + CurseForge
         uses: Kir-Antipov/mc-publish@v3
@@ -51,6 +62,7 @@ jobs:
 
           name: VoiceServer ${{ steps.vars.outputs.VERSION }}
           version: ${{ steps.vars.outputs.VERSION }}
+
           changelog: ${{ steps.changelog.outputs.CHANGELOG }}
 
           loaders: |
@@ -61,7 +73,6 @@ jobs:
             folia
 
           game-versions: |
-            1.8
             1.8.8
             1.12.2
             1.16.5
@@ -69,12 +80,11 @@ jobs:
             1.20.1
             1.21.1
             1.21.2
-            26.1.2
 
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: VoiceServer ${{ github.ref_name }}
-          body: ${{ steps.changelog.outputs.CHANGELOG }}
+          tag_name: build-${{ github.run_number }}
+          name: VoiceServer build-${{ github.run_number }}
+          body: Automated build
           files: ${{ steps.jar.outputs.JAR }}
