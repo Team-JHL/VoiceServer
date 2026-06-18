@@ -3,7 +3,7 @@ name: VoiceServer Release
 on:
   push:
     branches:
-      - master   # oder main
+      - master
 
 permissions:
   contents: write
@@ -30,12 +30,15 @@ jobs:
         id: jar
         run: echo "JAR=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
-      # 🔥 Version jetzt aus Run-ID (kein Tag mehr)
-      - name: Generate version
+      # 🔥 VERSION AUS CHANGELOG.md (OBERSTE VERSION)
+      - name: Extract version from CHANGELOG
         id: vars
-        run: echo "VERSION=build-${{ github.run_number }}" >> $GITHUB_OUTPUT
+        run: |
+          VERSION=$(grep -m1 '^## ' CHANGELOG.md | sed 's/^## //')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Extract latest changelog section
+      # 📝 Nur oberster Changelog-Block
+      - name: Extract changelog section
         id: changelog
         run: |
           awk '
@@ -46,6 +49,8 @@ jobs:
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
           cat changelog.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
+      # 🔥 RELEASE (KEIN build-X mehr!)
       - name: Publish Modrinth + CurseForge
         uses: Kir-Antipov/mc-publish@v3
         with:
@@ -81,7 +86,7 @@ jobs:
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: VoiceServer build-${{ github.run_number }}
-          body: Automated build
+          tag_name: v${{ steps.vars.outputs.VERSION }}
+          name: VoiceServer ${{ steps.vars.outputs.VERSION }}
+          body: ${{ steps.changelog.outputs.CHANGELOG }}
           files: ${{ steps.jar.outputs.JAR }}
