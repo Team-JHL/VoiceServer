@@ -46,6 +46,8 @@ jobs:
             { print }
           ' CHANGELOG.md > changelog.txt
 
+          cat changelog.txt
+
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
           cat changelog.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -75,16 +77,7 @@ jobs:
             folia
 
           game-versions: |
-            1.8.8
-            1.12.X
-            1.16.X
-            1.17.X
-            1.18.X
-            1.19.X
-            1.20.X
-            1.21.X
-            26.1.X
-            26.2
+            1.8.8-26.2
 
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
