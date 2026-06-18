@@ -1,0 +1,86 @@
+name: VoiceServer Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 📥 Repo holen
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ⚡ Maven Cache (Speed Boost)
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      # ☕ Java Setup (dein Projekt = Java 21)
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      # 📦 Maven Build
+      - name: Build with Maven
+        run: mvn clean package
+
+      # 📦 JAR finden (robust wegen Shade Plugin)
+      - name: Find JAR file
+        id: jar
+        run: echo "JAR=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
+
+      # 🏷️ Version aus Tag holen (v1.4.1 → 1.4.1)
+      - name: Extract version
+        id: vars
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      # 📝 Einfacher Changelog (später upgradebar auf CHANGELOG.md)
+      - name: Set changelog
+        id: changelog
+        run: |
+          echo "CHANGELOG=VoiceServer Release ${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
+
+      # 🔵 Upload zu Modrinth
+      - name: Upload to Modrinth
+        uses: modrinth/minotaur-action@v1
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project-id: HAYLhcHS
+          file-path: ${{ steps.jar.outputs.JAR }}
+          version: ${{ steps.vars.outputs.VERSION }}
+          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
+          release-type: release
+
+      # 🟠 Upload zu CurseForge
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          project-id: 1310398
+          game-version: 1.8.8
+          release-type: release
+          file-path: ${{ steps.jar.outputs.JAR }}
+          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
+
+      # 📦 GitHub Release erstellen
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: VoiceServer ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.CHANGELOG }}
+          files: ${{ steps.jar.outputs.JAR }}
