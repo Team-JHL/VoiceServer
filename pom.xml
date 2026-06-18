@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,9 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- ===================== -->
-    <!-- BUILD -->
-    <!-- ===================== -->
     <build>
 
         <defaultGoal>clean package</defaultGoal>
@@ -59,15 +56,45 @@
                 </configuration>
             </plugin>
 
-            <!-- ❗ KEIN SHADING FÜR VOICECHAT -->
-            <!-- nur optional bStats falls du es später wieder willst -->
+            <!-- 🔥 SHADE PLUGIN (bStats FIXED) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+
+                            <relocations>
+
+                                <!-- 🔥 bStats SHADING -->
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>de.jakomi1.voiceserver.libs.bstats</shadedPattern>
+                                </relocation>
+
+                            </relocations>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
     </build>
 
     <repositories>
+
         <repository>
-            <id>spigot-repo</id>
+            <id>spigot</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
@@ -76,15 +103,16 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
 
-        <!-- FIX: richtig für Voicechat -->
         <repository>
             <id>maxhenkel</id>
             <url>https://maven.maxhenkel.de/repository/public</url>
         </repository>
+
     </repositories>
 
     <dependencies>
 
+        <!-- Bukkit -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -92,14 +120,15 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- FIXED -->
+        <!-- Voicechat API -->
         <dependency>
             <groupId>de.maxhenkel.voicechat</groupId>
             <artifactId>voicechat-api</artifactId>
-            <version>2.6.13</version>
+            <version>2.5.27</version>
             <scope>provided</scope>
         </dependency>
 
+        <!-- bStats -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
@@ -107,7 +136,5 @@
         </dependency>
 
     </dependencies>
-
-
 
 </project>
