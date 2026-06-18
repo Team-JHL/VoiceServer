@@ -1,7 +1,6 @@
 ## 1.4.3
 - fixed some bugs
 
-
 ## 1.4.2
 - added auto publisher
 - removed more unused code
