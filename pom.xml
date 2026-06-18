@@ -7,7 +7,7 @@
 
     <groupId>de.jakomi1</groupId>
     <artifactId>VoiceServer</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.0-experimental</version>
     <packaging>jar</packaging>
 
     <name>VoiceServer</name>
