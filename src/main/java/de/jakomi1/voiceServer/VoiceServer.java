@@ -33,7 +33,7 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     }
     public void onEnable() {
         plugin = this;
-        new Metrics(this, 32078);
+        new Metrics(this, 32071);
         BukkitVoicechatService service = getServer().getServicesManager().load(BukkitVoicechatService.class);
         if (service == null) {
             getLogger().warning("[VoiceServer] Voice chat service not found. Plugin disabled.");
