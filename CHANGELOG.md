@@ -1,3 +1,6 @@
+## 1.4.4
+- fixed bStats bug (wrong pluginId)
+
 ## 1.4.3
 - fixed some bugs
 
