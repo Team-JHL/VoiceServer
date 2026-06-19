@@ -30,7 +30,6 @@ jobs:
         id: jar
         run: echo "JAR=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
-      # 🔥 VERSION AUS CHANGELOG.md (OBERSTE VERSION)
       - name: Extract version from CHANGELOG
         id: vars
         run: |
