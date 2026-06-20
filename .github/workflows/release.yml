@@ -1,4 +1,4 @@
-name: Universal Plugin Release
+name: VoiceServer Release
 
 on:
   push:
@@ -18,6 +18,7 @@ jobs:
 
       - name: Detect build system
         id: detect
+        shell: bash
         run: |
           if [ -f "./gradlew" ]; then
             echo "TYPE=gradle" >> "$GITHUB_OUTPUT"
@@ -30,71 +31,86 @@ jobs:
 
       - name: Read config
         id: cfg
+        shell: bash
         run: |
+          set -euo pipefail
+
           emit() {
-            printf '%s<<EOF\n%s\nEOF\n' "$1" "$2" >> "$GITHUB_OUTPUT"
+            {
+              printf '%s<<EOF\n' "$1"
+              printf '%s\n' "$2"
+              echo EOF
+            } >> "$GITHUB_OUTPUT"
           }
 
-          clean_csv() {
-            echo "$1" | tr ',' '\n' | sed '/^$/d' | paste -sd ',' -
+          to_lines() {
+            printf '%s' "$1" | tr ',' '\n' | sed '/^[[:space:]]*$/d'
           }
 
           if [ "${{ steps.detect.outputs.TYPE }}" = "gradle" ]; then
-
             get_prop() {
-              grep -m1 "^$1=" gradle.properties | cut -d'=' -f2- | tr -d '\r'
+              grep -m1 "^$1=" gradle.properties 2>/dev/null | cut -d'=' -f2- | tr -d '\r' || true
             }
 
             get_name() {
               sed -nE "s/^[[:space:]]*rootProject\.name[[:space:]]*=[[:space:]]*['\"]([^'\"]+)['\"].*/\1/p" \
-                settings.gradle settings.gradle.kts 2>/dev/null | head -n 1
+                settings.gradle settings.gradle.kts 2>/dev/null | head -n 1 || true
             }
 
             NAME="$(get_name)"
+            NAME="${NAME:-$(basename "$GITHUB_WORKSPACE")}"
+
             VERSION="$(get_prop version)"
             JAVA_VERSION="$(get_prop javaVersion)"
             MODRINTH_ID="$(get_prop modrinthId)"
             CURSEFORGE_ID="$(get_prop curseforgeId)"
 
-            LOADERS="$(clean_csv "$(get_prop loaders)")"
-
-            # 🔥 FIX: gameVersions fallback + validation
-            RAW_GAMES="$(get_prop gameVersions)"
-
-            if [ -z "$RAW_GAMES" ]; then
-              echo "⚠️ WARNING: gameVersions missing, using fallback 1.20.1"
-              RAW_GAMES="1.20.1"
-            fi
-
-            GAMES="$(clean_csv "$RAW_GAMES")"
-
+            LOADERS_RAW="$(get_prop loaders)"
+            GAMES_RAW="$(get_prop gameVersions)"
             CHANGELOG_FILE="$(get_prop changelogFile)"
 
           else
-
             get_xml() {
-              sed -n "s/.*<$1>\(.*\)<\/$1>.*/\1/p" pom.xml | head -n 1
+              sed -n "s/.*<$1>\(.*\)<\/$1>.*/\1/p" pom.xml | head -n 1 || true
             }
 
             NAME="$(get_xml artifactId)"
-            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-            JAVA_VERSION="$(sed -n 's/.*<java\.version>\(.*\)<\/java\.version>.*/\1/p' pom.xml | head -n 1)"
+            VERSION="$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+            JAVA_VERSION="$(get_xml java.version)"
             MODRINTH_ID="$(get_xml modrinthId)"
             CURSEFORGE_ID="$(get_xml curseforgeId)"
 
-            LOADERS="$(clean_csv "$(get_xml loaders)")"
-
-            # 🔥 FIX: Maven fallback
-            RAW_GAMES="$(get_xml gameVersions)"
-
-            if [ -z "$RAW_GAMES" ]; then
-              echo "⚠️ WARNING: gameVersions missing, using fallback 1.20.1"
-              RAW_GAMES="1.20.1"
-            fi
-
-            GAMES="$(clean_csv "$RAW_GAMES")"
-
+            LOADERS_RAW="$(get_xml loaders)"
+            GAMES_RAW="$(get_xml gameVersions)"
             CHANGELOG_FILE="$(get_xml changelogFile)"
+          fi
+
+          LOADERS_RAW="${LOADERS_RAW:-paper,spigot,bukkit,purpur,folia}"
+          GAMES_RAW="${GAMES_RAW:-1.8.8,1.9.X,1.10.X,1.11.X,1.12.X,1.13.X,1.14.X,1.15.X,1.16.X,1.17.X,1.18.X,1.19.X,1.20.X,1.21.X,26.1.X,26.2}"
+          CHANGELOG_FILE="${CHANGELOG_FILE:-CHANGELOG.md}"
+          JAVA_VERSION="${JAVA_VERSION:-21}"
+
+          LOADERS="$(to_lines "$LOADERS_RAW")"
+          GAMES="$(to_lines "$GAMES_RAW")"
+
+          if [ -z "$VERSION" ]; then
+            echo "VERSION could not be determined"
+            exit 1
+          fi
+
+          if [ -z "$MODRINTH_ID" ]; then
+            echo "MODRINTH_ID could not be determined"
+            exit 1
+          fi
+
+          if [ -z "$CURSEFORGE_ID" ]; then
+            echo "CURSEFORGE_ID could not be determined"
+            exit 1
+          fi
+
+          if [ ! -f "$CHANGELOG_FILE" ]; then
+            echo "Changelog file not found: $CHANGELOG_FILE"
+            exit 1
           fi
 
           emit NAME "$NAME"
@@ -115,26 +131,51 @@ jobs:
 
       - name: Build (Gradle)
         if: steps.detect.outputs.TYPE == 'gradle'
+        shell: bash
         run: |
           chmod +x gradlew
-          ./gradlew clean shadowJar
+          ./gradlew clean build
 
       - name: Build (Maven)
         if: steps.detect.outputs.TYPE == 'maven'
+        shell: bash
         run: mvn clean package
 
       - name: Find JAR
         id: jar
+        shell: bash
         run: |
+          set -euo pipefail
+
           if [ -d "build/libs" ]; then
-            echo "JAR=$(ls build/libs/*.jar | head -n 1)" >> "$GITHUB_OUTPUT"
+            JAR="$(find build/libs -maxdepth 1 -type f -name '*.jar' \
+              ! -name '*-sources.jar' \
+              ! -name '*-javadoc.jar' \
+              ! -name '*-plain.jar' \
+              ! -name '*-original.jar' | head -n 1)"
           else
-            echo "JAR=$(ls target/*.jar | head -n 1)" >> "$GITHUB_OUTPUT"
+            JAR="$(find target -maxdepth 1 -type f -name '*-shaded.jar' | head -n 1)"
+            if [ -z "$JAR" ]; then
+              JAR="$(find target -maxdepth 1 -type f -name '*.jar' \
+                ! -name 'original-*' \
+                ! -name '*-sources.jar' \
+                ! -name '*-javadoc.jar' | head -n 1)"
+            fi
           fi
+
+          if [ -z "$JAR" ]; then
+            echo "No JAR file found"
+            exit 1
+          fi
+
+          echo "JAR=$JAR" >> "$GITHUB_OUTPUT"
 
       - name: Extract changelog
         id: changelog
+        shell: bash
         run: |
+          set -euo pipefail
+
           FILE="${{ steps.cfg.outputs.CHANGELOG_FILE }}"
 
           awk '
@@ -148,33 +189,13 @@ jobs:
           ' "$FILE" > latest.md
 
           {
-            echo "MARKDOWN<<EOF"
+            echo "CHANGELOG<<EOF"
             cat latest.md
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
-          echo "<ul>" > latest.html
-          while IFS= read -r line; do
-            line="$(echo "$line" | sed 's/^ *//;s/ *$//')"
-
-            if [[ "$line" == "- "* ]]; then
-              content="${line#- }"
-              content="${content//&/&amp;}"
-              content="${content//</&lt;}"
-              content="${content//>/&gt;}"
-              echo "  <li>$content</li>" >> latest.html
-            fi
-          done < latest.md
-          echo "</ul>" >> latest.html
-
-          {
-            echo "HTML<<EOF"
-            cat latest.html
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Publish
-        uses: Kir-Antipov/mc-publish@v3
+      - name: Publish Modrinth + CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           files: ${{ steps.jar.outputs.JAR }}
 
@@ -186,9 +207,10 @@ jobs:
 
           name: ${{ steps.cfg.outputs.NAME }} ${{ steps.cfg.outputs.VERSION }}
           version: ${{ steps.cfg.outputs.VERSION }}
+          version-type: release
 
-          changelog: ${{ steps.changelog.outputs.MARKDOWN }}
-          curseforge-changelog: ${{ steps.changelog.outputs.HTML }}
+          changelog: ${{ steps.changelog.outputs.CHANGELOG }}
+          curseforge-changelog: ${{ steps.changelog.outputs.CHANGELOG }}
 
           loaders: ${{ steps.cfg.outputs.LOADERS }}
           game-versions: ${{ steps.cfg.outputs.GAMES }}
@@ -198,5 +220,5 @@ jobs:
         with:
           tag_name: v${{ steps.cfg.outputs.VERSION }}
           name: ${{ steps.cfg.outputs.NAME }} ${{ steps.cfg.outputs.VERSION }}
-          body: ${{ steps.changelog.outputs.MARKDOWN }}
+          body: ${{ steps.changelog.outputs.CHANGELOG }}
           files: ${{ steps.jar.outputs.JAR }}
