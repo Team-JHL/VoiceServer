@@ -1,4 +1,4 @@
-## 1.4.6 (not pushed)
+## 1.4.6 
 - added fastStats support
 
 ## 1.4.5
