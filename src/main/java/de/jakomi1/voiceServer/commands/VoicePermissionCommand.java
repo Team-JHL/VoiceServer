@@ -82,7 +82,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
             }
 
             case "remove" -> {
-                // /vcpermission remove <player> <permission>
                 if (args.length != 3) {
                     MessageUtils.showVoicePermissionCommandUsage(sender);
                     return true;

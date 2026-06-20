@@ -35,6 +35,10 @@ jobs:
             printf '%s<<EOF\n%s\nEOF\n' "$1" "$2" >> "$GITHUB_OUTPUT"
           }
 
+          clean_csv() {
+            echo "$1" | tr ',' '\n' | sed '/^$/d' | paste -sd ',' -
+          }
+
           if [ "${{ steps.detect.outputs.TYPE }}" = "gradle" ]; then
 
             get_prop() {
@@ -51,8 +55,10 @@ jobs:
             JAVA_VERSION="$(get_prop javaVersion)"
             MODRINTH_ID="$(get_prop modrinthId)"
             CURSEFORGE_ID="$(get_prop curseforgeId)"
-            LOADERS="$(get_prop loaders | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
-            GAMES="$(get_prop gameVersions | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
+
+            LOADERS="$(clean_csv "$(get_prop loaders)")"
+            GAMES="$(clean_csv "$(get_prop gameVersions)")"
+
             CHANGELOG_FILE="$(get_prop changelogFile)"
 
           else
@@ -67,8 +73,8 @@ jobs:
             MODRINTH_ID="$(get_xml modrinthId)"
             CURSEFORGE_ID="$(get_xml curseforgeId)"
 
-            LOADERS="$(get_xml loaders | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
-            GAMES="$(get_xml gameVersions | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
+            LOADERS="$(clean_csv "$(get_xml loaders)")"
+            GAMES="$(clean_csv "$(get_xml gameVersions)")"
 
             CHANGELOG_FILE="$(get_xml changelogFile)"
 
@@ -149,7 +155,6 @@ jobs:
             cat latest.html
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
-
 
       - name: Publish
         uses: Kir-Antipov/mc-publish@v3

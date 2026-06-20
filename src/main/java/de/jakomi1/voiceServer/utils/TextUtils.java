@@ -82,7 +82,7 @@ public class TextUtils {
             }
         };
     }
-    // Extrahiere ein quoted-Argument ab args[startIdx] (für Gruppenname und Passwort)
+
     public static String getQuotedArg(String[] args, int startIdx) {
         if (startIdx >= args.length) return null;
         StringBuilder sb = new StringBuilder();
