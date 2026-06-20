@@ -1,3 +1,6 @@
+## 1.4.6 (not pushed)
+- added fastStats support
+
 ## 1.4.5
 - removed unused code
 - fixed auto publisher code

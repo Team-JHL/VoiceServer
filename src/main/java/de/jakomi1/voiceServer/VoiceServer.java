@@ -9,6 +9,7 @@ import de.jakomi1.voiceServer.utils.DataUtils;
 import de.jakomi1.voiceServer.utils.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
+import dev.faststats.bukkit.BukkitContext;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -23,8 +24,12 @@ import static de.jakomi1.voiceServer.utils.DataUtils.*;
 public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandExecutor, TabCompleter {
     public static VoicechatServerApi serverApi;
     public static JavaPlugin plugin;
+    private final BukkitContext context = new BukkitContext.Factory(this, "9d72e9a7d274d31bd49b1aad75beb631")
+            .metrics(dev.faststats.Metrics.Factory::create)
+            .create();
     @Override
     public void registerEvents(EventRegistration registration) {
+
         registration.registerEvent(CreateGroupEvent.class, CreateGroupListener::onGroupCreatedEvent);
         registration.registerEvent(JoinGroupEvent.class, JoinGroupListener::onGroupJoinEvent);
         registration.registerEvent(LeaveGroupEvent.class, LeaveGroupListener::onGroupLeaveEvent);
@@ -34,6 +39,7 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
     public void onEnable() {
         plugin = this;
         new Metrics(this, 32071);
+        context.ready();
 
         BukkitVoicechatService service = getServer().getServicesManager().load(BukkitVoicechatService.class);
         if (service == null) {
@@ -45,6 +51,11 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
 
         registerAllCommands();
         registerAllListener();
+    }
+
+    @Override
+    public void onDisable() {
+        context.shutdown();
     }
 
     private void registerAllListener() {

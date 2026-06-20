@@ -7,7 +7,7 @@
 
     <groupId>de.jakomi1</groupId>
     <artifactId>VoiceServer</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -77,13 +77,14 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
 
                             <relocations>
-
-                                <!-- 🔥 bStats SHADING -->
                                 <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>de.jakomi1.voiceserver.libs.bstats</shadedPattern>
                                 </relocation>
-
+                                <relocation>
+                                    <pattern>org.faststats</pattern>
+                                    <shadedPattern>de.jakomi1.voiceserver.libs.faststats</shadedPattern>
+                                </relocation>
                             </relocations>
 
                         </configuration>
@@ -110,7 +111,10 @@
             <id>maxhenkel</id>
             <url>https://maven.maxhenkel.de/repository/public</url>
         </repository>
-
+        <repository>
+            <id>faststats-releases</id>
+            <url>https://repo.faststats.dev/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -126,7 +130,11 @@
             <version>2.5.27</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>dev.faststats.metrics</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>0.27.0</version>
+        </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
