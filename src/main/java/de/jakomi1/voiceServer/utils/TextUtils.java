@@ -110,7 +110,6 @@ public class TextUtils {
         }
         return (started && ended) ? sb.toString() : null;
     }
-    // Gibt zurück wie viele args das quoted-Argument belegt
     public static int countQuotedArgs(String[] args, int startIdx) {
         if (startIdx >= args.length) return 0;
         int count = 0;

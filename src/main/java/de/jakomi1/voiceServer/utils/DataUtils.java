@@ -1,7 +1,6 @@
 package de.jakomi1.voiceServer.utils;
 
 import de.jakomi1.voiceServer.Scheduler;
-import de.maxhenkel.voicechat.api.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
