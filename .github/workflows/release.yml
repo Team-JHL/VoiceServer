@@ -57,7 +57,16 @@ jobs:
             CURSEFORGE_ID="$(get_prop curseforgeId)"
 
             LOADERS="$(clean_csv "$(get_prop loaders)")"
-            GAMES="$(clean_csv "$(get_prop gameVersions)")"
+
+            # 🔥 FIX: gameVersions fallback + validation
+            RAW_GAMES="$(get_prop gameVersions)"
+
+            if [ -z "$RAW_GAMES" ]; then
+              echo "⚠️ WARNING: gameVersions missing, using fallback 1.20.1"
+              RAW_GAMES="1.20.1"
+            fi
+
+            GAMES="$(clean_csv "$RAW_GAMES")"
 
             CHANGELOG_FILE="$(get_prop changelogFile)"
 
@@ -74,10 +83,18 @@ jobs:
             CURSEFORGE_ID="$(get_xml curseforgeId)"
 
             LOADERS="$(clean_csv "$(get_xml loaders)")"
-            GAMES="$(clean_csv "$(get_xml gameVersions)")"
+
+            # 🔥 FIX: Maven fallback
+            RAW_GAMES="$(get_xml gameVersions)"
+
+            if [ -z "$RAW_GAMES" ]; then
+              echo "⚠️ WARNING: gameVersions missing, using fallback 1.20.1"
+              RAW_GAMES="1.20.1"
+            fi
+
+            GAMES="$(clean_csv "$RAW_GAMES")"
 
             CHANGELOG_FILE="$(get_xml changelogFile)"
-
           fi
 
           emit NAME "$NAME"
