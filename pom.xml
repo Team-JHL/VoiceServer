@@ -7,15 +7,21 @@
 
     <groupId>de.jakomi1</groupId>
     <artifactId>VoiceServer</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.4</version>
     <packaging>jar</packaging>
-
-    <name>VoiceServer</name>
 
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <modrinthId>HAYLhcHS</modrinthId>
+        <curseforgeId>1310398</curseforgeId>
+
+        <loaders>paper,spigot,bukkit,purpur,folia</loaders>
+        <gameVersions>1.8.8,1.9.X,1.10.X,1.11.X,1.12.X,1.13.X,1.14.X,1.15.X,1.16.X,1.17.X,1.18.X,1.19.X,1.20.X,1.21.X,26.1.X,26.2</gameVersions>
+
+        <changelogFile>CHANGELOG.md</changelogFile>
     </properties>
+    <name>VoiceServer</name>
 
     <build>
 

@@ -28,7 +28,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
 
         switch (subCommand) {
             case "default" -> {
-                // /vcpermission default <permission> <true|false>
                 if (args.length != 3) {
                     MessageUtils.showVoicePermissionCommandUsage(sender);
                     return true;
@@ -57,7 +56,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
             }
 
             case "give" -> {
-                // /vcpermission give <player> <permission>
                 if (args.length != 3) {
                     MessageUtils.showVoicePermissionCommandUsage(sender);
                     return true;
@@ -110,8 +108,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "reset" -> {
-                // /vcpermission reset            -> reset ALL (wie vorher)
-                // /vcpermission reset <player>   -> reset only that player (remove explicit allow/disallow)
                 if (args.length == 1) {
                     DataUtils.resetAllPermissions();
                     MessageUtils.sendSuccess(sender, "All voice permissions were reset to defaults.");
@@ -156,12 +152,11 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
             String partial = args[1].toLowerCase(Locale.ROOT);
 
             if (sub.equals("default")) {
-                // suggest permission categories
                 PERMISSIONS.stream()
                         .filter(p -> p.startsWith(partial))
                         .forEach(suggestions::add);
             } else {
-                // suggest online players
+
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     String name = p.getName();
                     if (name.toLowerCase(Locale.ROOT).startsWith(partial)) suggestions.add(name);
@@ -172,7 +167,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
             String partial = args[2].toLowerCase(Locale.ROOT);
 
             if (sub.equals("default")) {
-                // Only suggest the opposite of the current default value
                 String permission = args[1].toLowerCase(Locale.ROOT);
 
                 if (PERMISSIONS.contains(permission)) {
@@ -184,7 +178,6 @@ public class VoicePermissionCommand implements CommandExecutor, TabCompleter {
                     }
                 }
             } else {
-                // suggest relevant permission categories for give/remove
                 String playerName = args[1];
                 for (String cat : PERMISSIONS) {
                     boolean allowed = DataUtils.isPlayerAllowed(cat, playerName);

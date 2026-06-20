@@ -1,8 +1,6 @@
-## 1.4.5 (not pushed)
-- fixed auto publisher code
-
 ## 1.4.4
 - fixed bStats bug (wrong pluginId)
+- fixed auto publisher code
 
 ## 1.4.3
 - fixed some bugs
