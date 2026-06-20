@@ -51,8 +51,8 @@ jobs:
             JAVA_VERSION="$(get_prop javaVersion)"
             MODRINTH_ID="$(get_prop modrinthId)"
             CURSEFORGE_ID="$(get_prop curseforgeId)"
-            LOADERS="$(get_prop loaders | tr ',' '\n')"
-            GAMES="$(get_prop gameVersions | tr ',' '\n')"
+            LOADERS="$(get_prop loaders | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
+            GAMES="$(get_prop gameVersions | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
             CHANGELOG_FILE="$(get_prop changelogFile)"
 
           else
@@ -62,13 +62,14 @@ jobs:
             }
 
             NAME="$(get_xml artifactId)"
-
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             JAVA_VERSION="$(sed -n 's/.*<java\.version>\(.*\)<\/java\.version>.*/\1/p' pom.xml | head -n 1)"
             MODRINTH_ID="$(get_xml modrinthId)"
             CURSEFORGE_ID="$(get_xml curseforgeId)"
-            LOADERS="$(get_xml loaders | tr ',' '\n')"
-            GAMES="$(get_xml gameVersions | tr ',' '\n')"
+
+            LOADERS="$(get_xml loaders | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
+            GAMES="$(get_xml gameVersions | tr ',' ',' | tr -d '\n' | sed 's/,$//')"
+
             CHANGELOG_FILE="$(get_xml changelogFile)"
 
           fi
@@ -130,7 +131,6 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
           echo "<ul>" > latest.html
-
           while IFS= read -r line; do
             line="$(echo "$line" | sed 's/^ *//;s/ *$//')"
 
@@ -142,7 +142,6 @@ jobs:
               echo "  <li>$content</li>" >> latest.html
             fi
           done < latest.md
-
           echo "</ul>" >> latest.html
 
           {
@@ -150,6 +149,7 @@ jobs:
             cat latest.html
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
+
 
       - name: Publish
         uses: Kir-Antipov/mc-publish@v3
