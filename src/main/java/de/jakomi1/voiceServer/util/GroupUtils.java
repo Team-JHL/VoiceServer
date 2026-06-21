@@ -1,4 +1,4 @@
-package de.jakomi1.voiceServer.utils;
+package de.jakomi1.voiceServer.util;
 
 import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
@@ -16,10 +16,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static de.jakomi1.voiceServer.VoiceServer.serverApi;
-import static de.jakomi1.voiceServer.utils.DataUtils.clearDefaultGroupIfMatches;
-import static de.jakomi1.voiceServer.utils.DataUtils.removePersistentGroupByName;
-import static de.jakomi1.voiceServer.utils.MessageUtils.*;
-import static de.jakomi1.voiceServer.utils.TextUtils.*;
+import static de.jakomi1.voiceServer.util.DataUtils.clearDefaultGroupIfMatches;
+import static de.jakomi1.voiceServer.util.DataUtils.removePersistentGroupByName;
+import static de.jakomi1.voiceServer.util.MessageUtils.*;
+import static de.jakomi1.voiceServer.util.TextUtils.*;
 
 public class GroupUtils {
     public static final Map<UUID, String> groupPasswords = new HashMap<>();

@@ -1,4 +1,4 @@
-package de.jakomi1.voiceServer.utils;
+package de.jakomi1.voiceServer.util;
 
 import de.maxhenkel.voicechat.api.Group;
 import org.bukkit.Bukkit;

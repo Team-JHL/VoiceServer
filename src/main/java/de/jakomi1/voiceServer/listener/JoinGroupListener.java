@@ -6,7 +6,7 @@ import de.maxhenkel.voicechat.api.events.JoinGroupEvent;
 
 import java.util.UUID;
 
-import static de.jakomi1.voiceServer.utils.GroupUtils.playerGroupMap;
+import static de.jakomi1.voiceServer.util.GroupUtils.playerGroupMap;
 
 public class JoinGroupListener {
     public static void onGroupJoinEvent(JoinGroupEvent event) {

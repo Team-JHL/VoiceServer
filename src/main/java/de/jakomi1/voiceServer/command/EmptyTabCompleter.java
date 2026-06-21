@@ -1,4 +1,4 @@
-package de.jakomi1.voiceServer.commands;
+package de.jakomi1.voiceServer.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

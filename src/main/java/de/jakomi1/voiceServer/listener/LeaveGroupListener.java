@@ -7,8 +7,8 @@ import de.maxhenkel.voicechat.api.events.LeaveGroupEvent;
 import java.util.UUID;
 
 import static de.jakomi1.voiceServer.VoiceServer.serverApi;
-import static de.jakomi1.voiceServer.utils.GroupUtils.groupPasswords;
-import static de.jakomi1.voiceServer.utils.GroupUtils.playerGroupMap;
+import static de.jakomi1.voiceServer.util.GroupUtils.groupPasswords;
+import static de.jakomi1.voiceServer.util.GroupUtils.playerGroupMap;
 
 public class LeaveGroupListener {
     public static void onGroupLeaveEvent(LeaveGroupEvent event) {

@@ -1,7 +1,7 @@
-package de.jakomi1.voiceServer.commands;
+package de.jakomi1.voiceServer.command;
 
-import de.jakomi1.voiceServer.utils.MessageUtils;
-import de.jakomi1.voiceServer.utils.TextUtils;
+import de.jakomi1.voiceServer.util.MessageUtils;
+import de.jakomi1.voiceServer.util.TextUtils;
 import de.maxhenkel.voicechat.api.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.jakomi1.voiceServer.VoiceServer.serverApi;
-import static de.jakomi1.voiceServer.utils.GroupUtils.*;
-import static de.jakomi1.voiceServer.utils.TextUtils.mergeQuoted;
+import static de.jakomi1.voiceServer.util.GroupUtils.*;
+import static de.jakomi1.voiceServer.util.TextUtils.mergeQuoted;
 
 public class VoiceGroupCommand implements CommandExecutor, TabCompleter {
 

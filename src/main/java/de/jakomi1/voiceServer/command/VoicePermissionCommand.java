@@ -1,7 +1,7 @@
-package de.jakomi1.voiceServer.commands;
+package de.jakomi1.voiceServer.command;
 
-import de.jakomi1.voiceServer.utils.DataUtils;
-import de.jakomi1.voiceServer.utils.MessageUtils;
+import de.jakomi1.voiceServer.util.DataUtils;
+import de.jakomi1.voiceServer.util.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

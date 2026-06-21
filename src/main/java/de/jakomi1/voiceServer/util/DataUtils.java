@@ -1,4 +1,4 @@
-package de.jakomi1.voiceServer.utils;
+package de.jakomi1.voiceServer.util;
 
 import de.jakomi1.voiceServer.Scheduler;
 import org.bukkit.Bukkit;

@@ -1,12 +1,12 @@
-package de.jakomi1.voiceServer.utils;
+package de.jakomi1.voiceServer.util;
 
-import de.jakomi1.voiceServer.commands.VoicePermissionCommand;
-import de.jakomi1.voiceServer.commands.VoiceServerCommand;
+import de.jakomi1.voiceServer.command.VoicePermissionCommand;
+import de.jakomi1.voiceServer.command.VoiceServerCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import static de.jakomi1.voiceServer.commands.VoiceGroupCommand.SUBCOMMANDS;
-import static de.jakomi1.voiceServer.utils.TextUtils.getChatPrefix;
+import static de.jakomi1.voiceServer.command.VoiceGroupCommand.SUBCOMMANDS;
+import static de.jakomi1.voiceServer.util.TextUtils.getChatPrefix;
 
 public class MessageUtils {
 

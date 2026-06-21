@@ -1,3 +1,6 @@
+## 1.4.7 (not pushed)
+- changed package names to universal design
+
 ## 1.4.6 
 - added fastStats support
 

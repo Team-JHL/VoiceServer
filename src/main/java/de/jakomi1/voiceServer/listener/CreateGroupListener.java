@@ -5,7 +5,7 @@ import de.maxhenkel.voicechat.api.events.CreateGroupEvent;
 
 import java.util.UUID;
 
-import static de.jakomi1.voiceServer.utils.GroupUtils.groupPasswords;
+import static de.jakomi1.voiceServer.util.GroupUtils.groupPasswords;
 
 public class CreateGroupListener {
     public static void onGroupCreatedEvent(CreateGroupEvent event) {

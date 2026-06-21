@@ -7,6 +7,20 @@
     <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="added fastStats support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/EmptyTabCompleter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/command/EmptyTabCompleter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceGroupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/command/VoiceGroupCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoicePermissionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/command/VoicePermissionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/commands/VoiceServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/command/VoiceServerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/CreateGroupListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/CreateGroupListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinGroupListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinGroupListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/JoinListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/LeaveGroupListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/listener/LeaveGroupListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/DataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/util/DataUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/GroupUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/util/GroupUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/MessageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/util/MessageUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/utils/TextUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/util/TextUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

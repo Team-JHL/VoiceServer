@@ -1,12 +1,12 @@
 package de.jakomi1.voiceServer;
 
-import de.jakomi1.voiceServer.commands.*;
+import de.jakomi1.voiceServer.command.*;
 import de.jakomi1.voiceServer.listener.CreateGroupListener;
 import de.jakomi1.voiceServer.listener.JoinGroupListener;
 import de.jakomi1.voiceServer.listener.JoinListener;
 import de.jakomi1.voiceServer.listener.LeaveGroupListener;
-import de.jakomi1.voiceServer.utils.DataUtils;
-import de.jakomi1.voiceServer.utils.GroupUtils;
+import de.jakomi1.voiceServer.util.DataUtils;
+import de.jakomi1.voiceServer.util.GroupUtils;
 import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
 import dev.faststats.bukkit.BukkitContext;
@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Objects;
 
-import static de.jakomi1.voiceServer.utils.DataUtils.*;
+import static de.jakomi1.voiceServer.util.DataUtils.*;
 
 public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandExecutor, TabCompleter {
     public static VoicechatServerApi serverApi;
