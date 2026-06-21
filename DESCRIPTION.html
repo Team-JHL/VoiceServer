@@ -1,0 +1,171 @@
+<h1>🎙️ VoiceServer – Powerful Group Management for Simple Voice Chat</h1>
+
+<p>
+    <strong>VoiceServer</strong> is a lightweight yet advanced plugin for managing
+    <strong>Simple Voice Chat</strong> groups with intuitive commands, full tab completion,
+    and real-time control for events, teams, and dynamic player structures.
+</p>
+
+<p>
+    Fully compatible with <strong>Folia</strong>, <strong>Paper</strong>,
+    <strong>Spigot</strong>, and <strong>Bukkit</strong>, supporting Minecraft versions from
+    <strong>1.8.8</strong> up to <strong>26.2</strong>.
+</p>
+
+<p>
+    <strong>Open Source:</strong>
+    <a href="https://github.com/Jakomi1/VoiceServer" target="_blank">
+        https://github.com/Jakomi1/VoiceServer
+    </a>
+</p>
+
+<hr/>
+
+<h2>🚀 Key Features</h2>
+<ul>
+    <li>
+        <strong>List all voice chat groups</strong> – Shows all active groups.
+    </li>
+    <li>
+        <strong>Create groups</strong> – Supports persistent and non-persistent groups, with optional
+        password protection for persistent groups.
+    </li>
+    <li>
+        <strong>Join players to groups</strong> – <code>join</code> supports selectors like
+        <code>@a</code>, <code>@s</code>, <code>@r</code>, and <code>@p</code>.
+    </li>
+    <li>
+        <strong>Remove players from groups</strong> – <code>kick</code> removes players from their
+        current group without needing a group argument.
+    </li>
+    <li>
+        <strong>Safely delete groups</strong> – Non-persistent groups are removed automatically when
+        empty; persistent groups stay until deleted manually.
+    </li>
+    <li>
+        <strong>Default group assignment</strong> – Players can be placed automatically into a
+        predefined group on join with <code>/vcgroup default &lt;groupname&gt; [persistent]</code>.
+    </li>
+    <li>
+        <strong>Command aliases</strong> – Short aliases are available for faster workflow:
+        <ul>
+            <li><code>/vcpermission</code> → <code>/voicepermission</code></li>
+            <li><code>/vcserver</code> → <code>/voiceserver</code></li>
+            <li><code>/vcgroup</code> → <code>/voicegroup</code></li>
+        </ul>
+    </li>
+    <li>
+        <strong>Access control</strong> – Group management commands are protected by
+        <code>voicechat.group.manage</code>.
+    </li>
+    <li>
+        <strong>Full tab completion</strong> – Supports commands, players, selectors, group names,
+        and quoted arguments with Folia-safe tab completion.
+    </li>
+    <li>
+        <strong>Persistent groups</strong> – Ideal for staff, admin, or permanent team channels.
+    </li>
+    <li>
+        <strong>Persistence across restarts (optional)</strong> – The config option
+        <code>persistent-groups-should-survive-restart</code> lets persistent groups survive restarts
+        or reloads (default: <code>false</code>).
+    </li>
+    <li>
+        <strong>Create empty groups</strong> – Use <code>@null</code> with
+        <code>/vcgroup create</code> to create a group without players.
+    </li>
+    <li>
+        <strong>Group info</strong> – <code>/vcgroup info</code> shows type, persistence, lock status,
+        and members.
+    </li>
+    <li>
+        <strong>Voice permission management</strong> – Per-player permissions via
+        <code>/vcpermission</code> for <code>listen</code>, <code>speak</code>, and <code>group</code>.
+    </li>
+    <li>
+        <strong>Debug logging and stable error handling</strong> – Improved debugging and robust
+        handling for safer operation.
+    </li>
+    <li>
+        <strong>Folia-supported scheduler</strong> – Built with Folia-safe scheduling support.
+    </li>
+</ul>
+
+<hr/>
+
+<h2>🧭 Commands</h2>
+
+<h3>Voice groups</h3>
+<pre><code>/vcgroup list</code></pre>
+<p>Lists all voice chat groups and marks password-protected groups with <code>[locked]</code>.</p>
+
+<pre><code>/vcgroup create &lt;player|@a|@s|@r|@p|@null&gt; &lt;type&gt; "&lt;group_name&gt;" [persistent|not-persistent] ["password"]</code></pre>
+<p>Creates a new group. Using <code>@null</code> creates an empty group.</p>
+
+<pre><code>/vcgroup join &lt;player|@a|@s|@r|@p&gt; "&lt;group_name&gt;"</code></pre>
+<p>Moves players into an existing group.</p>
+
+<pre><code>/vcgroup kick &lt;player|@a|@s|@r|@p&gt;</code></pre>
+<p>Removes players from their current group.</p>
+
+<pre><code>/vcgroup remove "&lt;group_name&gt;"</code></pre>
+<p>Deletes a voice group and removes all members.</p>
+
+<pre><code>/vcgroup info "&lt;group_name&gt;"</code></pre>
+<p>Shows detailed information about a group.</p>
+
+<pre><code>/vcgroup default &lt;groupname&gt; [persistent]</code></pre>
+<p>Sets the default group players are automatically placed into when joining.</p>
+
+<h3>Voice permissions</h3>
+<pre><code>/vcpermission give &lt;player&gt; &lt;listen|speak|group&gt;</code></pre>
+<p>Grants a voice permission and applies it live.</p>
+
+<pre><code>/vcpermission remove &lt;player&gt; &lt;listen|speak|group&gt;</code></pre>
+<p>Revokes a voice permission and updates the player instantly.</p>
+
+<pre><code>/vcpermission default &lt;listen|speak|group&gt; &lt;true|false&gt;</code></pre>
+<p>Sets global default values (defaults are <code>true</code>).</p>
+
+<pre><code>/vcpermission reset</code></pre>
+<p>Resets the entire permission system to factory defaults.</p>
+
+<hr/>
+
+<h2>⚙️ Configuration</h2>
+<p>
+    No setup required. Install <strong>VoiceServer</strong> alongside
+    <strong>Simple Voice Chat</strong> and start using it immediately.
+</p>
+<p>
+    All permission data and persistent group settings are stored in <code>config.yml</code>.
+    The plugin automatically migrates old keys and keeps the config structure stable.
+</p>
+
+<hr/>
+
+<h2>⚠ Requirements</h2>
+<ul>
+    <li><strong>Minecraft:</strong> 1.8.8 – 26.2</li>
+    <li><strong>Server:</strong> Folia, Paper, Spigot, Bukkit</li>
+    <li><strong>Dependency:</strong> Simple Voice Chat (Mod + API)</li>
+</ul>
+
+<hr/>
+
+<h2>💡 Example Use Cases</h2>
+<ul>
+    <li>Create dynamic voice groups for events, PvP, or minigames.</li>
+    <li>Maintain permanent staff or admin voice channels.</li>
+    <li>Use password-protected private groups without exposing passwords.</li>
+    <li>Control who may listen, speak, or join groups on a per-player basis.</li>
+</ul>
+
+<hr/>
+
+<h2>🧑‍💻 Developer Notes</h2>
+<ul>
+    <li>Developed by <strong>Jakomi1</strong>.</li>
+    <li>Fully open source and community-friendly.</li>
+    <li>Folia-safe scheduling, selectors, and tab completion.</li>
+</ul>
