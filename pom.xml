@@ -82,7 +82,7 @@
                                     <shadedPattern>de.jakomi1.voiceserver.libs.bstats</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>org.faststats</pattern>
+                                    <pattern>dev.faststats</pattern>
                                     <shadedPattern>de.jakomi1.voiceserver.libs.faststats</shadedPattern>
                                 </relocation>
                             </relocations>

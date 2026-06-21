@@ -1,4 +1,4 @@
-## 1.4.7 (not pushed)
+## 1.4.7
 - changed package names to universal design
 
 ## 1.4.6 
