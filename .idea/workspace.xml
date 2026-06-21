@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="fixed some bugs">
+    <list default="true" id="68a185f7-190f-4f5c-9ab2-5b4356da9911" name="Changes" comment="changed package names to universal design">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/jakomi1/voiceServer/VoiceServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ver/experimental" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -28,12 +35,12 @@
     &quot;assignee&quot;: &quot;Jakomi1&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Team-JHL/VoiceServer.git",
-    "accountId": "342ed136-4f86-4603-866e-1380bdefa5e0"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Team-JHL/VoiceServer.git&quot;,
+    &quot;accountId&quot;: &quot;342ed136-4f86-4603-866e-1380bdefa5e0&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -55,6 +62,7 @@
     "Maven.VoiceServer [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
     "Maven.VoiceServer [org.apache.maven.plugins:maven-deploy-plugin:3.1.2:deploy].executor": "Run",
     "Maven.VoiceServer [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor": "Run",
+    "Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.0:jar].executor": "Run",
     "Maven.VoiceServer [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
     "Maven.VoiceServer [org.apache.maven.plugins:maven-shade-plugin:3.5.3:shade].executor": "Run",
     "Maven.VoiceServer [package].executor": "Run",
@@ -69,9 +77,9 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "experimental/1.4.0",
+    "git-widget-placeholder": "ver/experimental",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer/releases",
+    "last_opened_file_path": "C:/Users/jakob_vowie/Desktop/Coding Projekte/VoiceServer",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
@@ -80,8 +88,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
       <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\.github\workflows" />
+      <recent name="C:\Users\jakob_vowie\Desktop\Coding Projekte\VoiceServer\releases" />
       <recent name="C:\Users\jakob_vowie\Sinnlose Projekte\VoiceServer\src\main\java\de\jakomi1\voiceServer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -271,7 +280,79 @@
       <option name="project" value="LOCAL" />
       <updated>1781814251319</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added metrics support">
+      <option name="closed" value="true" />
+      <created>1781814979678</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1781814979678</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fixed bStats bug (wrong pluginId)&#10;fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781944501999</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1781944501999</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781944770122</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1781944770122</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781945057745</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1781945057745</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781945202968</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1781945202968</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781945613682</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1781945613682</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fixed auto publisher code">
+      <option name="closed" value="true" />
+      <created>1781947100908</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1781947100908</updated>
+    </task>
+    <task id="LOCAL-00024" summary="added fastStats support">
+      <option name="closed" value="true" />
+      <created>1781950672272</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1781950672272</updated>
+    </task>
+    <task id="LOCAL-00025" summary="changed package names to universal design">
+      <option name="closed" value="true" />
+      <created>1782041143685</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1782041143685</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -281,6 +362,11 @@
     <MESSAGE value="added release logic" />
     <MESSAGE value="fixed release logic" />
     <MESSAGE value="fixed some bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some bugs" />
+    <MESSAGE value="added metrics support" />
+    <MESSAGE value="fixed bStats bug (wrong pluginId)&#10;fixed auto publisher code" />
+    <MESSAGE value="fixed auto publisher code" />
+    <MESSAGE value="added fastStats support" />
+    <MESSAGE value="changed package names to universal design" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed package names to universal design" />
   </component>
 </project>
