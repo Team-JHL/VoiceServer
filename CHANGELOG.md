@@ -1,3 +1,6 @@
+## 1.4.8
+- fixed critical plugin-load bug 
+
 ## 1.4.7
 - changed package names to universal design
 

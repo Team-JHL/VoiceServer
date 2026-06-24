@@ -29,7 +29,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
             .create();
     @Override
     public void registerEvents(EventRegistration registration) {
-
         registration.registerEvent(CreateGroupEvent.class, CreateGroupListener::onGroupCreatedEvent);
         registration.registerEvent(JoinGroupEvent.class, JoinGroupListener::onGroupJoinEvent);
         registration.registerEvent(LeaveGroupEvent.class, LeaveGroupListener::onGroupLeaveEvent);
@@ -48,7 +47,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
             return;
         }
         service.registerPlugin(this);
-
         registerAllCommands();
         registerAllListener();
     }
@@ -97,7 +95,6 @@ public class VoiceServer extends JavaPlugin implements VoicechatPlugin, CommandE
         } else {
             throw new IllegalStateException("Expected VoicechatServerApi");
         }
-
         loadConfig();
         Bukkit.getOnlinePlayers().forEach(DataUtils::updatePermissions);
         Scheduler.runLater(() -> Bukkit.getOnlinePlayers().forEach(GroupUtils::joinDefaultGroup), 40L);
