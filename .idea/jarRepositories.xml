@@ -2,6 +2,11 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="spigot" />
+      <option name="name" value="spigot" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -17,11 +22,6 @@
       <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="spigot-repo" />
-      <option name="name" value="spigot-repo" />
-      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="maxhenkel" />
       <option name="name" value="maxhenkel" />
       <option name="url" value="https://https://maven.maxhenkel.de/#/releases/de/maxhenkel/voicechat/voicechat-api/2.5.27" />
@@ -29,7 +29,7 @@
     <remote-repository>
       <option name="id" value="maxhenkel" />
       <option name="name" value="maxhenkel" />
-      <option name="url" value="https://maven.maxhenkel.de/#/releases/de/maxhenkel/voicechat/voicechat-api/2.5.27" />
+      <option name="url" value="https://maven.maxhenkel.de/repository/public" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="maxhenkel" />
@@ -47,9 +47,24 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="spigot-repo" />
+      <option name="name" value="spigot-repo" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maxhenkel" />
+      <option name="name" value="maxhenkel" />
+      <option name="url" value="https://maven.maxhenkel.de/#/releases/de/maxhenkel/voicechat/voicechat-api/2.5.27" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="faststats-releases" />
+      <option name="name" value="faststats-releases" />
+      <option name="url" value="https://repo.faststats.dev/releases" />
     </remote-repository>
   </component>
 </project>
