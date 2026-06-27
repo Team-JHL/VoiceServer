@@ -36,12 +36,10 @@ public class VoiceGroupCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
         if (args.length == 0) {
             MessageUtils.showVoiceGroupCommandUsage(sender);
             return true;
         }
-
         switch (args[0].toLowerCase()) {
 
             case "list" ->

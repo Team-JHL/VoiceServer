@@ -23,7 +23,6 @@ public class LeaveGroupListener {
                 .filter(g -> g.getId().equals(group.getId()))
                 .count();
 
-        // Gruppe nur löschen, wenn nicht persistent und leer!
         if (remaining == 0 && !group.isPersistent()) {
             groupPasswords.remove(group.getId());
             serverApi.removeGroup(group.getId());

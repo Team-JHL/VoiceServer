@@ -1,3 +1,7 @@
+## 1.4.9
+- fixed some bugs
+- removed unused code
+
 ## 1.4.8
 - fixed critical plugin-load bug 
 
