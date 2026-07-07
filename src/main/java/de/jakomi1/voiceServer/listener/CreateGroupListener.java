@@ -12,6 +12,7 @@ public class CreateGroupListener {
         Group group = event.getGroup();
         assert group != null;
         UUID id = group.getId();
+        if(id == null) return;
         boolean hasPw = group.hasPassword();
         if (hasPw) {
             groupPasswords.put(id, null);

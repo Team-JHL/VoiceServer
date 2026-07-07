@@ -1,3 +1,6 @@
+## 1.4.10
+- fixed message bug
+
 ## 1.4.9
 - fixed some bugs
 - removed unused code
